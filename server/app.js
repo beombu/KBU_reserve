@@ -8,6 +8,7 @@ var logger = require('morgan');
 const { indexRouter } = require("./routes/index"); //람준 index이름 바꿔서 작업할것
 const { userRouter } = require("./routes/userRouter");
 const {authenticate} = require("./middleware/authentication");
+const { teamRouter } = require("./routes/teamRouter");
 
 const app = express();
 
@@ -33,11 +34,13 @@ app.use(authenticate);
 
 app.use('/index', indexRouter);//람준이가 작업할 라우터!!!
 app.use('/users', userRouter);
+app.use('/makeTeam',teamRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
 
 // error handler
 app.use(function(err, req, res, next) {

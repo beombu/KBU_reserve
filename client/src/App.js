@@ -6,7 +6,7 @@ import RegisterPage from "./pages/RegisterPage";
 import MainPage from "./pages/MainPage";
 import { Switch,Route } from "react-router-dom";
 import ToolBar from "./components/ToolBar";
-
+import MakeTeamPage from "./pages/MakeTeamPage";
 
 const App = () => {
   return (
@@ -17,6 +17,7 @@ const App = () => {
       <Route path= "/" exact component = { MainPage} />
       <Route path= "/auth/register" exact component = { RegisterPage} />
       <Route path= "/auth/login" exact component = { LoginPage} />
+      <Route path= "/makeTeam" exact component = { MakeTeamPage } />
     </Switch>
     </div>
   );
