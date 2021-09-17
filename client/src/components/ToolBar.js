@@ -12,6 +12,9 @@ const ToolBar = ()=>{
         try{
             await axios.patch("/users/logout");
             setMe();//초기화
+            localStorage.removeItem("sessionId");
+            delete axios.defaults.headers.common.sessionid;
+            console.log(me);
             toast.success("로그아웃 성공");
 
         } catch (err){
