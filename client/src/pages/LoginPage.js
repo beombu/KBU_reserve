@@ -13,6 +13,7 @@ const LoginPage =() =>{
     const history = useHistory()
 
     const loginHandler = async(e) => {
+        
         try{
             e.preventDefault();
             if(username.length <3 || password.length < 6)
