@@ -3,6 +3,8 @@ import React, {useContext} from "react";
 import { Link } from "react-router-dom";//해당 url로 이동시켜주는 API
 import { AuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
+import "./ToolBar.css";
+
 
 
 const ToolBar = ()=>{
@@ -31,7 +33,16 @@ const ToolBar = ()=>{
             </Link>
 
             {me ? (
+                <>
+                <div className="profile">
+                    <span>마이페이지</span>
+                    <ul className="menu">
+                        <li><Link to="/mypage/changemaketeamposter">나의 팀 모집</Link></li>
+                    </ul>
+                    </div>
                 <span onClick={logoutHandler} style={{ float : "right", cursor:"pointer"}}>로그아웃({me.name})</span>
+
+                </>
                 ) : (
                 <>      <Link to="/auth/login">
                     <span style={{ float: "right" }}>로그인</span>
