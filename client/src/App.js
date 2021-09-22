@@ -7,6 +7,7 @@ import MainPage from "./pages/MainPage";
 import { Switch,Route } from "react-router-dom";
 import ToolBar from "./components/ToolBar";
 import MakeTeamPage from "./pages/MakeTeamPage";
+import GetTeamList from "./pages/GetTeamList";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
       <Route path= "/auth/register" exact component = { RegisterPage} />
       <Route path= "/auth/login" exact component = { LoginPage} />
       <Route path= "/makeTeam" exact component = { MakeTeamPage } />
+      <Route path= "/mypage/getteamlist" exact component = { GetTeamList } />
     </Switch>
     </div>
   );

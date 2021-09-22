@@ -37,7 +37,7 @@ const ToolBar = ()=>{
                 <div className="profile">
                     <span>마이페이지</span>
                     <ul className="menu">
-                        <li><Link to="/mypage/changemaketeamposter">나의 팀 모집</Link></li>
+                        <li><Link to="/mypage/getteamlist">나의 팀 모집</Link></li>
                     </ul>
                     </div>
                 <span onClick={logoutHandler} style={{ float : "right", cursor:"pointer"}}>로그아웃({me.name})</span>

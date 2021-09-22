@@ -7,8 +7,6 @@ import { useHistory } from "react-router";
 const MainPage = () => {
     const history = useHistory();
 
-
-
 const onLinkClick1= (e) =>{
     e.preventDefault();
     if(localStorage.sessionId) {

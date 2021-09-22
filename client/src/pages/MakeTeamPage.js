@@ -1,7 +1,8 @@
-import React, {useState } from "react";
+import React, {useContext, useState } from "react";
 import CustomInput from "../components/CustomInput";
 import { toast} from "react-toastify";
 import axios from "axios";
+import { AuthContext } from "../context/AuthContext";
 import { useHistory } from "react-router";
 import CustomSelect from "../components/CustomSelect";
 
@@ -16,6 +17,7 @@ const MakeTeamPage = () =>{
     const [selectedSports, setSelectedSports] = useState("");
     const sexAarry = ["성별선택", "남","여"];
     const [selectedSex, setSelectedSex] = useState("");
+    const [me,setMe] = useContext(AuthContext);
     const history = useHistory();
     var parseNumberPeople = 0;
 
@@ -23,13 +25,23 @@ const MakeTeamPage = () =>{
         try{
             e.preventDefault();
             parseNumberPeople = parseInt(numberPeople);
+            const send_param = {
+                "_id" : me.userId,
+                "name" : name,
+                "say": say,
+                "phoneNumber" : phoneNumber,
+                "parseNumberPeople" :parseNumberPeople,
+                "selectedMajor" :selectedMajor,
+                "selectedSports" :selectedSports,
+                "selectedSex" : selectedSex,
+            }
             if(selectedSports === "풋살장" && parseNumberPeople > 8) throw new Error("풋살장은 최대 8명까지만 이용가능!");
             if(selectedSports === "농구장" && parseNumberPeople > 10) throw new Error("농구장은 최대 10명까지만 이용가능!");
             if(selectedSports === "탁구장" && parseNumberPeople > 4) throw new Error("탁구장은 최대 4명까지만 이용가능!");
             if(selectedMajor ==="학과선택") throw new Error("학과를 선택하세요!");
             if(selectedSports ==="스포츠선택") throw new Error("스포츠를 선택하세요!");
             if(selectedSex ==="성별선택") throw new Error("성별을 선택하세요!");
-            await axios.post("/makeTeam",{name, say, phoneNumber, parseNumberPeople, selectedMajor, selectedSports, selectedSex});
+            await axios.post("/makeTeam",send_param);
             toast.success("예약에 성공하셨습니다.");
             history.push("/");
         } catch(err){
