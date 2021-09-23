@@ -10,7 +10,7 @@ const GetTeamList = () =>{
 
     useEffect(() =>{
         getBoradList();
-    },[me]);
+    },[boardList]);
 
     const getBoradList = () =>{
         const send_param = {

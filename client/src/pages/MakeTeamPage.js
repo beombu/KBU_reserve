@@ -5,6 +5,7 @@ import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import { useHistory } from "react-router";
 import CustomSelect from "../components/CustomSelect";
+import CustomCheckBox from "../components/CustomCheckBox";
 
 const MakeTeamPage = () =>{
     const [teamName, setTeamName] = useState("");//팀이름
@@ -34,17 +35,6 @@ const MakeTeamPage = () =>{
     //         setCheckedInputs(checkedInputs.filter((el)=> el !== id));
     //     }
     // };
-    const handleChangeOne = () => {
-        setCheckedOne(!checkedOne);
-      };
-     
-      const handleChangeTwo = () => {
-        setCheckedTwo(!checkedTwo);
-      };
-
-      const handleChangeThree = () => {
-        setCheckedThree(!checkedThree);
-      };
 
     const submitHandler = async (e) =>{
         try{
@@ -103,18 +93,9 @@ const MakeTeamPage = () =>{
                         원하는 시간
                     </label>
                     </div>
-                    <label>
-                    <input type="checkbox" onChange={handleChangeOne} checked={checkedOne} />
-                    오전(09:00~12:00)
-                    </label>
-                    <label>
-                    <input type="checkbox" onChange={handleChangeTwo} checked={checkedTwo} />
-                    오후(13:00~17:00)
-                    </label>
-                    <label>
-                    <input type="checkbox" onChange={handleChangeThree} checked={checkedThree} />
-                    야간(18:00~22:00)
-                    </label>
+                    <CustomCheckBox label="오전(09:00~12:00)" value={checkedOne} setValue ={setCheckedOne}/>
+                    <CustomCheckBox label="오후(13:00~17:00)" value={checkedTwo} setValue ={setCheckedTwo}/>
+                    <CustomCheckBox label="야간(18:00~22:00)" value={checkedThree} setValue ={setCheckedThree}/>
                 </div>
                 <CustomInput label = "참가비밀번호(없으면 공백)" value ={teamPw} setValue={setTeamPw}/>
 
