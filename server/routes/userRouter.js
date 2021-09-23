@@ -19,6 +19,8 @@ userRouter.post("/register", async(req,res)=>{
             hashedPassword,
             email : req.body.email,
             phoneNumber : req.body.phoneNumber,
+            sex : req.body.selectedSex,
+            major : req.body.selectedMajor,
             kbuCode : req.body.kbuCode,
             sessions:[{createdAt:new Date()}]
         }).save();

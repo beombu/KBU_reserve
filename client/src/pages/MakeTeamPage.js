@@ -7,40 +7,74 @@ import { useHistory } from "react-router";
 import CustomSelect from "../components/CustomSelect";
 
 const MakeTeamPage = () =>{
-    const [name, setName] = useState("");//이름
+    const [teamName, setTeamName] = useState("");//팀이름
     const [say, setSay] = useState("");//멘트
     const [phoneNumber, setPhoneNumber] = useState("");//전화번호
     const [numberPeople, setNumberPeople] = useState("");//모집인원수
-    const majorArray = ["학과선택", "성서학과", "사회복지학과", "영유아보육학과", "컴퓨터소프트웨어학과", "간호학과"];
-    const [selectedMajor, setSelectedMajor] = useState("");
-    const sportsAray = ["스포츠선택","풋살장", "농구장", "탁구장"];
+    const sportsArray = ["스포츠선택","풋살장", "농구장", "탁구장"];
     const [selectedSports, setSelectedSports] = useState("");
-    const sexAarry = ["성별선택", "남","여"];
-    const [selectedSex, setSelectedSex] = useState("");
+    //암호, 원하는 시간 넣을것
+    // const [checkedInputs, setCheckedInputs] = useState([]);
+    const [checkedOne, setCheckedOne] = useState(false);
+    const [checkedTwo, setCheckedTwo] = useState(false);
+    const [checkedThree, setCheckedThree] = useState(false);
+    const [teamPw, setTeamPw] = useState("");//팀 암호
     const [me,setMe] = useContext(AuthContext);
     const history = useHistory();
     var parseNumberPeople = 0;
+    var parseCheckdOne = "";
+    var parseCheckedTwo = "";
+    var parseCheckedThree = "";
+
+    // const changeHandler = (e,id) =>{
+    //     if(e.target.checked){
+    //         setCheckedInputs([...checkedInputs,id]);
+
+    //     }else{
+    //         setCheckedInputs(checkedInputs.filter((el)=> el !== id));
+    //     }
+    // };
+    const handleChangeOne = () => {
+        setCheckedOne(!checkedOne);
+      };
+     
+      const handleChangeTwo = () => {
+        setCheckedTwo(!checkedTwo);
+      };
+
+      const handleChangeThree = () => {
+        setCheckedThree(!checkedThree);
+      };
 
     const submitHandler = async (e) =>{
         try{
             e.preventDefault();
             parseNumberPeople = parseInt(numberPeople);
+            parseCheckdOne = checkedOne.toString();
+            parseCheckedTwo = checkedTwo.toString();
+            parseCheckedThree = checkedThree.toString();
+
+            if(parseCheckdOne === "true") parseCheckdOne = "오전(09:00~12:00)"
+            else parseCheckdOne = ""
+            if(parseCheckedTwo === "true") parseCheckedTwo = "오후(13:00~17:00)"
+            else parseCheckedTwo = ""
+            if(parseCheckedThree === "true") parseCheckedThree = "야간(18:00~22:00)"
+            else parseCheckedThree = ""
             const send_param = {
                 "_id" : me.userId,
-                "name" : name,
+                "teamName" : teamName,
                 "say": say,
                 "phoneNumber" : phoneNumber,
-                "parseNumberPeople" :parseNumberPeople,
-                "selectedMajor" :selectedMajor,
+                "maxNumberPeople" :parseNumberPeople,
                 "selectedSports" :selectedSports,
-                "selectedSex" : selectedSex,
+                "wantPlayTime" : [parseCheckdOne,parseCheckedTwo,parseCheckedThree],
+                "teamPw" : teamPw,
             }
             if(selectedSports === "풋살장" && parseNumberPeople > 8) throw new Error("풋살장은 최대 8명까지만 이용가능!");
             if(selectedSports === "농구장" && parseNumberPeople > 10) throw new Error("농구장은 최대 10명까지만 이용가능!");
             if(selectedSports === "탁구장" && parseNumberPeople > 4) throw new Error("탁구장은 최대 4명까지만 이용가능!");
-            if(selectedMajor ==="학과선택") throw new Error("학과를 선택하세요!");
             if(selectedSports ==="스포츠선택") throw new Error("스포츠를 선택하세요!");
-            if(selectedSex ==="성별선택") throw new Error("성별을 선택하세요!");
+            if(phoneNumber.length !== 11) throw new Error("전화번호를 확인해주세요!");
             await axios.post("/makeTeam",send_param);
             toast.success("예약에 성공하셨습니다.");
             history.push("/");
@@ -53,18 +87,37 @@ const MakeTeamPage = () =>{
     return (
         <div style={{
             marginTop:100,
-            maxWidth:350,
+            maxWidth:400,
             marginLeft:"auto",
             marginRight:"auto",
         }}>
             <h3>팀만들기 작성</h3>
             <form onSubmit={submitHandler}>
-                <CustomInput label = "이름" value={name} setValue={ setName }/>
-                <CustomSelect label = "학과  :  " value={selectedMajor} selectArray = {majorArray} setValue = {setSelectedMajor}/>
-                <CustomSelect label = "스포츠  :  " value={selectedSports} selectArray = {sportsAray} setValue = {setSelectedSports}/>
-                <CustomSelect label = "성별  :  " value={selectedSex} selectArray = {sexAarry} setValue = {setSelectedSex}/>
+                <CustomInput label = "팀이름" value={teamName} setValue={ setTeamName }/>
+                <CustomSelect label = "스포츠  :  " value={selectedSports} selectArray = {sportsArray} setValue = {setSelectedSports}/>
                 <CustomInput label = "전화번호(ex:01012345678)" value={phoneNumber} setValue = { setPhoneNumber }/>
                 <CustomInput label = "모집인원" value={numberPeople} type="number" setValue = { setNumberPeople }/>
+                <div>
+                    <div>
+                    <label>
+                        원하는 시간
+                    </label>
+                    </div>
+                    <label>
+                    <input type="checkbox" onChange={handleChangeOne} checked={checkedOne} />
+                    오전(09:00~12:00)
+                    </label>
+                    <label>
+                    <input type="checkbox" onChange={handleChangeTwo} checked={checkedTwo} />
+                    오후(13:00~17:00)
+                    </label>
+                    <label>
+                    <input type="checkbox" onChange={handleChangeThree} checked={checkedThree} />
+                    야간(18:00~22:00)
+                    </label>
+                </div>
+                <CustomInput label = "참가비밀번호(없으면 공백)" value ={teamPw} setValue={setTeamPw}/>
+
                 <CustomInput label = "모집 문장" value={say} setValue = { setSay }/>
                 <button type="submit">버튼</button>
             </form>

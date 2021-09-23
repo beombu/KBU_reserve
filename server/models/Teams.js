@@ -11,13 +11,13 @@ const TeamSchema = new mongoose.Schema(
             required: true,
             ref: "User"
         },
-        name: {type:String, required: true},
-        major :{ type: String, required: true},
+        teamName: {type:String, required: true},
         sport :{ type:String, required:true},
-        sex : {type:String, required:true},
         phoneNumber : {type:String, required:true, unique: true},
+        wantPlayTime : {type:Array, required:true},
+        teamPw : {type:String, required:false},
         say : {type:String, required:true},
-        parseNumberPeople : {type:Number, required: true},
+        maxNumberPeople : {type:Number, required: true},
         countNumberPeople : {type:Number},
         createdAt:{
             type: Date,
