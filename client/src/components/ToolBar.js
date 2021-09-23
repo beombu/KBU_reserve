@@ -3,14 +3,14 @@ import React, {useContext} from "react";
 import { Link } from "react-router-dom";//해당 url로 이동시켜주는 API
 import { AuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
-// import { useHistory } from "react-router";
+import { useHistory } from "react-router";
 import "./ToolBar.css";
 
 
 
 const ToolBar = ()=>{
     const [me,setMe] = useContext(AuthContext);
-    // const history = useHistory();
+    const history = useHistory();
     
     const logoutHandler = async() =>{
         try{
@@ -18,9 +18,8 @@ const ToolBar = ()=>{
             setMe();//초기화
             localStorage.removeItem("sessionId");
             delete axios.defaults.headers.common.sessionid;
-            console.log(me);
-            // history.push('/');
             toast.success("로그아웃 성공");
+            history.push('/');
 
         } catch (err){
             console.error(err);
@@ -42,7 +41,7 @@ const ToolBar = ()=>{
                     <ul className="menu">
                         <li><Link to="/mypage/getteamlist">나의 팀 모집</Link></li>
                     </ul>
-                    </div>
+                </div>
                 <span onClick={logoutHandler} style={{ float : "right", cursor:"pointer"}}>로그아웃({me.name})</span>
 
                 </>

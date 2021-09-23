@@ -30,8 +30,8 @@ const onLinkClick2= (e) =>{
 }
 
     return (
-        <div>
-            <h2>KBU 예약 시스템!</h2>
+        <div style={{textAlign:"center"}}>
+            <h2 style={{marginTop:50}}>KBU 예약 시스템!</h2>
                     <Link to="/makeTeam" onClick ={onLinkClick1}>
                         <span style={{ marginRight: 100 }} >팀만들기</span>
                     </Link>
