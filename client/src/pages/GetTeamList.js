@@ -3,16 +3,37 @@ import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import Table from 'react-bootstrap/Table';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { toast } from "react-toastify";
+import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 
 
 const GetTeamList = () =>{
     
     const [boardList,setBoardList] = useState([]);
     const [me,setMe] =useContext(AuthContext);
+    const history = useHistory();
 
     useEffect(() =>{
         getBoradList();
-    },[me]);
+    },[]);
+
+    const removePost = (_id) =>{
+        const send_param ={
+            _id
+        };
+        if(window.confirm("정말 삭제하시겠습니까?")){
+            axios.post("/makeTeam/delete",send_param)
+            .then(returnData=>{
+                toast.success("글 삭제 성공!");
+                history.push("/");//렌더링 문제 해결후 url 수정
+            })
+            .catch(err=>{
+                console.error(err);
+                toast.error(err.message);
+            })
+        }
+    }
 
     const getBoradList = () =>{
         const send_param = {
@@ -22,23 +43,23 @@ const GetTeamList = () =>{
         .post("/makeTeam/getBoardList",send_param)
         .then(returnData =>{
             let boardList;
-            console.log("이것은 : ",returnData.data.board);
-            console.log("저적은 : " , returnData);
             if(returnData.data.board.length>0){
                 const boards = returnData.data.board;
-                console.log(boards[0].createdAt.substring(0,10));
-                boardList = boards.map(item =>(
-                    <tr style={{textAlign : "center"}}>
+                boardList = boards.map((item) =>(
+                    <tr key= {item._id} style={{textAlign : "center"}}>
                     <td>{item.createdAt.substring(0,10)}</td>
                     <td>{item.teamName}</td>
                     <td>{item.sport}</td>
-                    <td>{item.wantPlayTime}</td>
-                    <td>{item.teamPw}</td>
-                    <td>{item.maxNumberPeople}</td>
-                    <td>{item.say}</td>
+                        <td>{item.wantPlayTime}</td>
+                        <td>{item.teamPw}</td>
+                        <td>{item.maxNumberPeople}</td>
+                        <td>{item.say}</td>
+                        <td>
+                            <Link to={"/makeTeam/modify/"+item._id}> <input type='button' value='수정' /></Link>
+                            <input type='button' value="삭제" onClick={() => removePost(item._id)} />
+                        </td>
                     </tr>
                 ));
-                console.log("sljr: " ,boardList);
                 setBoardList(boardList);
             }else{
                 boardList = (
@@ -69,6 +90,7 @@ const GetTeamList = () =>{
                     <th>팀패스워드(없을시 공백)</th>
                     <th>최대모집인원</th>
                     <th>모집 문장</th>
+                    <th>편집</th>
                 </tr>
             </thead>
             <tbody>{boardList}</tbody>

@@ -8,6 +8,7 @@ import { Switch,Route } from "react-router-dom";
 import ToolBar from "./components/ToolBar";
 import MakeTeamPage from "./pages/MakeTeamPage";
 import GetTeamList from "./pages/GetTeamList";
+import ModifyMakeTeam from "./pages/ModifyMakeTeam";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
       <Route path= "/auth/login" exact component = { LoginPage} />
       <Route path= "/makeTeam" exact component = { MakeTeamPage } />
       <Route path= "/mypage/getteamlist" exact component = { GetTeamList } />
+      <Route path= "/makeTeam/modify/:data" exact component ={ ModifyMakeTeam }/>
     </Switch>
     </div>
   );
