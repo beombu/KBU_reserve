@@ -68,8 +68,10 @@ teamRouter.post("/getMakeTeam",async(req,res) =>{
 
 teamRouter.post("/update",async(req,res)=>{
     try{
-        await Teams.findOneAndUpdate(
-            {_id:req.body._id},
+        const _id = req.body._id;
+        console.log("이것뭐자:",_id);
+        await Teams.findByIdAndUpdate(
+            _id,
             {
                 $set:{
                     teamName: req.body.teamName,
@@ -81,7 +83,7 @@ teamRouter.post("/update",async(req,res)=>{
                     maxNumberPeople :req.body.maxNumberPeople,
                 }
             }
-        ).save();
+        ).exec();
         res.json({message:"수정이 완료되었습니다!"});
     } catch(err){
         console.error(err);

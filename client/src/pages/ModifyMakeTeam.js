@@ -68,7 +68,7 @@ const ModifyMakeTeam = () =>{
             if(parseCheckedThree === "true") parseCheckedThree = "야간(18:00~22:00)"
             else parseCheckedThree = ""
             const send_param = {
-                "_id" : me.userId,
+                "_id" : _id.data,
                 "teamName" : teamName,
                 "say": say,
                 "phoneNumber" : phoneNumber,
