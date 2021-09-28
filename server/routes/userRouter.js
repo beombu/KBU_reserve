@@ -24,6 +24,7 @@ userRouter.post("/register", async(req,res)=>{
             kbuCode : req.body.kbuCode,
             sessions:[{createdAt:new Date()}]
         }).save();
+        console.log(user);
         const session = user.sessions[0];
         res.json({ message: "user registered", userId:user.id, sessionId:session._id, name:user.name});
     }catch(err){

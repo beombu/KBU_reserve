@@ -20,7 +20,7 @@ const MakeTeamPage = () =>{
     const [checkedTwo, setCheckedTwo] = useState(false);
     const [checkedThree, setCheckedThree] = useState(false);
     const [teamPw, setTeamPw] = useState("");//팀 암호
-    const [me,setMe] = useContext(AuthContext);
+    const [me,] = useContext(AuthContext);
     const history = useHistory();
     var parseNumberPeople = 0;
     var parseCheckdOne = "";
@@ -35,7 +35,7 @@ const MakeTeamPage = () =>{
     //         setCheckedInputs(checkedInputs.filter((el)=> el !== id));
     //     }
     // };
-
+    console.log("MakeTeamPage는 이때 실행" ,me);
     const submitHandler = async (e) =>{
         try{
             e.preventDefault();

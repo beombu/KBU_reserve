@@ -20,7 +20,7 @@ const RegisterPage =() =>{
     const majorArray = ["학과선택", "성서학과", "사회복지학과", "영유아보육학과", "컴퓨터소프트웨어학과", "간호학과"];
     const [selectedMajor, setSelectedMajor] = useState("");
     const [kbuCode, setkbuCode] = useState("");
-    const [me,setMe] = useContext(AuthContext);
+    const [,setMe] = useContext(AuthContext);
     const history = useHistory();
 
 

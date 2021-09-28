@@ -1,8 +1,7 @@
-import React, {useContext, useState, useEffect } from "react";
+import React, {useState, useEffect } from "react";
 import CustomInput from "../components/CustomInput";
 import { toast} from "react-toastify";
 import axios from "axios";
-import { AuthContext } from "../context/AuthContext";
 import { useHistory, useParams } from "react-router";
 import CustomSelect from "../components/CustomSelect";
 import CustomCheckBox from "../components/CustomCheckBox";
@@ -21,7 +20,6 @@ const ModifyMakeTeam = () =>{
     const [checkedTwo, setCheckedTwo] = useState(false);
     const [checkedThree, setCheckedThree] = useState(false);
     const [teamPw, setTeamPw] = useState("");//팀 암호
-    const [me,setMe] = useContext(AuthContext);
     const history = useHistory();
     var parseNumberPeople = 0;
     var parseCheckdOne = "";

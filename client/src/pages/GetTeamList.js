@@ -1,6 +1,5 @@
-import React, {useContext, useState, useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import axios from "axios";
-import { AuthContext } from "../context/AuthContext";
 import Table from 'react-bootstrap/Table';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { toast } from "react-toastify";
@@ -11,13 +10,20 @@ import { Link } from "react-router-dom";
 const GetTeamList = () =>{
     
     const [boardList,setBoardList] = useState([]);
-    const [me,setMe] =useContext(AuthContext);
+    const [session,] = useState(localStorage.getItem("sessionId"));
     const history = useHistory();
+    console.log(session);
 
+
+    
     useEffect(() =>{
         getBoradList();
     },[]);
+            
 
+
+    console.log("더룬곤거?>",boardList);
+    // console.log("id는",me);
     const removePost = (_id) =>{
         const send_param ={
             _id
@@ -37,7 +43,8 @@ const GetTeamList = () =>{
 
     const getBoradList = () =>{
         const send_param = {
-            _id : me.userId
+            sessionId: session,
+            // _id : me.userId
         };
         axios
         .post("/makeTeam/getBoardList",send_param)
@@ -97,8 +104,7 @@ const GetTeamList = () =>{
             </Table>
         </>
     )
-}
-
+};
 
 
 export default GetTeamList;
