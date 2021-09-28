@@ -12,6 +12,8 @@ teamRouter.post("/",async(req,res)=>{
         throw new Error("농구장엔 10명까지만 들어갈수있어요!")
         if(req.body.selectedSports ==="탁구장" && req.body.parseNumberPeople > 4)
         throw new Error("탁구장엔 4명까지만 들어갈수있어요!")
+
+        const user = await User.findOne({_id:req.body._id});
         const Team = await new Teams({
         
             writer : req.body._id,
@@ -22,9 +24,17 @@ teamRouter.post("/",async(req,res)=>{
             teamPw : req.body.teamPw,
             say : req.body.say,
             maxNumberPeople :req.body.maxNumberPeople,
-            countNumberPeople : 1
+            countNumberPeople : 1,
+            members : [
+                {
+                    name : user.name,
+                    email : user.email,
+                    phoneNumber : user.phoneNumber,
+                    sex : user.sex,
+                    major : user.major,
+                }
+            ]
         }).save();
-        console.log(Team);
         res.json({message: "Team make success"})
     }catch(err){
         console.error(err);

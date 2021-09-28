@@ -19,6 +19,7 @@ const TeamSchema = new mongoose.Schema(
         say : {type:String, required:true},
         maxNumberPeople : {type:Number, required: true},
         countNumberPeople : {type:Number},
+        members : {type:Array, required: true},
         createdAt:{
             type: Date,
             default: Date.now
