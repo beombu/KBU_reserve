@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import axios from "axios";
 import Table from 'react-bootstrap/Table';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -12,18 +12,18 @@ const GetTeamList = () =>{
     const [boardList,setBoardList] = useState([]);
     const [session,] = useState(localStorage.getItem("sessionId"));
     const history = useHistory();
-    console.log(session);
+    const firstRender = useRef(true);
+    console.log("로그찍기",boardList);
 
-
-    
     useEffect(() =>{
+        // if(firstRender){
+        //     firstRender.current = false;
+        //     return;
+        // }
         getBoradList();
     },[]);
             
 
-
-    console.log("더룬곤거?>",boardList);
-    // console.log("id는",me);
     const removePost = (_id) =>{
         const send_param ={
             _id
@@ -44,7 +44,6 @@ const GetTeamList = () =>{
     const getBoradList = () =>{
         const send_param = {
             sessionId: session,
-            // _id : me.userId
         };
         axios
         .post("/makeTeam/getBoardList",send_param)
@@ -61,10 +60,10 @@ const GetTeamList = () =>{
                         <td>{item.teamPw}</td>
                         <td>{item.maxNumberPeople}</td>
                         <td>{item.say}</td>
-                        <td>
-                            <Link to={"/makeTeam/modify/"+item._id}> <input type='button' value='수정' /></Link>
-                            <input type='button' value="삭제" onClick={() => removePost(item._id)} />
-                        </td>
+                    <td>
+                        <Link to={"/makeTeam/modify/"+item._id}> <input type='button' value='수정' /></Link>
+                        <input type='button' value="삭제" onClick={() => removePost(item._id)} />
+                    </td>
                     </tr>
                 ));
                 setBoardList(boardList);
@@ -87,7 +86,7 @@ const GetTeamList = () =>{
         <h1 style={{marginTop:80,
                     textAlign : "center"
                     }}>나의 팀모집 목록</h1>
-        <Table striped bordered hover>
+        <Table striped bordered hover size="sm">
             <thead>
                 <tr style={{textAlign : "center"}}>
                     <th>날짜</th>
@@ -105,6 +104,5 @@ const GetTeamList = () =>{
         </>
     )
 };
-
 
 export default GetTeamList;

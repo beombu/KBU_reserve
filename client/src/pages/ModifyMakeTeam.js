@@ -49,8 +49,6 @@ const ModifyMakeTeam = () =>{
     }
 
 
-
-
     const submitHandler = async (e) =>{
         try{
             e.preventDefault();

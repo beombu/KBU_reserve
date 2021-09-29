@@ -35,7 +35,6 @@ const MakeTeamPage = () =>{
     //         setCheckedInputs(checkedInputs.filter((el)=> el !== id));
     //     }
     // };
-    console.log("MakeTeamPage는 이때 실행" ,me);
     const submitHandler = async (e) =>{
         try{
             e.preventDefault();

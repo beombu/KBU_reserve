@@ -7,6 +7,8 @@ import { useHistory } from "react-router";
 const MainPage = () => {
     const history = useHistory();
     const checkSessionId = localStorage.sessionId;
+    const sessionIdUrl = "http://localhost:5000/index/" + checkSessionId;
+    console.log("세션은 : ", sessionIdUrl);
 
 
 const onLinkClick= () =>{
@@ -23,7 +25,7 @@ const onLinkClick= () =>{
                     <Link to="/makeTeam">
                         <span style={{ marginRight: 100 }} >팀만들기</span>
                     </Link>
-                    <a href="http://localhost:5000/index">
+                    <a href={sessionIdUrl}>
                         팀 참가하기
                     </a>
                 </>
