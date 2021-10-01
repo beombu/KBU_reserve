@@ -13,7 +13,7 @@ const TeamSchema = new mongoose.Schema(
         },
         teamName: {type:String, required: true},
         sport :{ type:String, required:true},
-        phoneNumber : {type:String, required:true, unique: true},
+        phoneNumber : {type:String, required:true,unique:false},
         wantPlayTime : {type:Array, required:true},
         teamPw : {type:String, required:false},
         say : {type:String, required:true},

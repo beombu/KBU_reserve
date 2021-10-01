@@ -83,7 +83,7 @@ teamRouter.post("/getMakeTeam",async(req,res) =>{
 teamRouter.post("/update",async(req,res)=>{
     try{
         await Teams.findByIdAndUpdate(
-            _id,
+            req.body._id,
             {
                 $set:{
                     teamName: req.body.teamName,

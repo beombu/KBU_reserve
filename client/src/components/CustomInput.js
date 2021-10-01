@@ -1,13 +1,19 @@
 import React from "react";
+import TextField from '@mui/material/TextField';
 
 const CustomInput = ({ label, value, type, setValue }) => {
     return (
-        <div>
+        <TextField
 
-            <label>{label}</label>
-            <input style={{ width: "100%" }} value={value} type={type} onChange={(e) => setValue(e.target.value)} />
+            value = {value||''}
+            onChange ={(e)=>setValue(e.target.value)}
+            label = {label}
+            type={type}
+            fullWidth
+            margin="normal"
+            >
 
-        </div>
+            </TextField>
     )
 }
 

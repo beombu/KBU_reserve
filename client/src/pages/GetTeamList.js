@@ -1,19 +1,30 @@
 import React, {useState, useEffect, useRef} from "react";
 import axios from "axios";
-import Table from 'react-bootstrap/Table';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { toast } from "react-toastify";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
+import Table from '@mui/material/Table';
+import Box from '@mui/material/Box';
+import Collapse from '@mui/material/Collapse';
+import IconButton from '@mui/material/IconButton';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 
 const GetTeamList = () =>{
     
     const [boardList,setBoardList] = useState([]);
     const [session,] = useState(localStorage.getItem("sessionId"));
+    const [open, setOpen] = useState(false);
     const history = useHistory();
-    const firstRender = useRef(true);
-    console.log("로그찍기",boardList);
+    // const firstRender = useRef(true);
 
     useEffect(() =>{
         // if(firstRender){
@@ -21,7 +32,7 @@ const GetTeamList = () =>{
         //     return;
         // }
         getBoradList();
-    },[]);
+    },[open]);
             
 
     const removePost = (_id) =>{
@@ -51,27 +62,79 @@ const GetTeamList = () =>{
             let boardList;
             if(returnData.data.board.length>0){
                 const boards = returnData.data.board;
-                boardList = boards.map((item) =>(
-                    <tr key= {item._id} style={{textAlign : "center"}}>
-                    <td>{item.createdAt.substring(0,10)}</td>
-                    <td>{item.teamName}</td>
-                    <td>{item.sport}</td>
-                        <td>{item.wantPlayTime}</td>
-                        <td>{item.teamPw}</td>
-                        <td>{item.maxNumberPeople}</td>
-                        <td>{item.say}</td>
-                    <td>
-                        <Link to={"/makeTeam/modify/"+item._id}> <input type='button' value='수정' /></Link>
-                        <input type='button' value="삭제" onClick={() => removePost(item._id)} />
-                    </td>
-                    </tr>
+                boardList = boards.map((item,v) =>(
+                    <React.Fragment>
+                    <TableRow
+                        key={item._id}
+                        sx={{ '& > *': { borderBottom: 'unset' } }}
+                    >
+                        <TableCell>
+                            <IconButton
+                                aria-label="expand row"
+                                size="small"
+                                onClick={() => setOpen(!open)}
+                            >
+                                {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                            </IconButton>
+                        </TableCell>
+                        <TableCell>
+                            {item.createdAt.substring(0,10)}
+                        </TableCell>
+                        <TableCell>
+                            {item.teamName}
+                        </TableCell>
+                        <TableCell >{item.sport}</TableCell>
+                        <TableCell>
+                            {item.teamPw}
+                        </TableCell>
+                        <TableCell>
+                            <Link to={"/makeTeam/modify/" + item._id}> <input type='button' value='수정' /></Link>
+                            <input type='button' value="삭제" onClick={() => removePost(item._id)} />
+                        </TableCell>
+                    </TableRow>
+                          <TableRow>
+                          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                            <Collapse in={open} timeout="auto" unmountOnExit>
+                              <Box sx={{ margin: 1 }}>
+                                <Typography variant="h6" gutterBottom component="div">
+                                  팀원 정보
+                                </Typography>
+                                <Table size="small" aria-label="purchases">
+                                  <TableHead>
+                                    <TableRow>
+                                      <TableCell>이름</TableCell>
+                                      <TableCell>전화번호</TableCell>
+                                      <TableCell>성별</TableCell>
+                                      <TableCell>학과</TableCell>
+                                    </TableRow>
+                                  </TableHead>
+                                  <TableBody>
+                                    {item.members.map((Row) => (
+                                      <TableRow>
+                                        <TableCell>
+                                          {Row.name}
+                                        </TableCell>
+                                        <TableCell>{Row.phoneNumber}</TableCell>
+                                        <TableCell>{Row.sex}</TableCell>
+                                        <TableCell>
+                                          {Row.major}
+                                        </TableCell>
+                                      </TableRow>
+                                    ))}
+                                  </TableBody>
+                                </Table>
+                              </Box>
+                            </Collapse>
+                          </TableCell>
+                        </TableRow>
+                        </React.Fragment>
                 ));
                 setBoardList(boardList);
             }else{
                 boardList = (
-                    <tr style={{textAlign : "center"}}>
-                        <td colSpan="2">작성한 게시글이 존재하지 않습니다.</td>
-                    </tr>
+                    <TableRow style={{textAlign : "center"}}>
+                    <TableCell colSpan="2">작성한 게시글이 존재하지 않습니다.</TableCell>
+                    </TableRow>
                 );
                 setBoardList(boardList);
             }
@@ -81,26 +144,30 @@ const GetTeamList = () =>{
         })
         
     }
-    return(
+    return (
         <>
-        <h1 style={{marginTop:80,
-                    textAlign : "center"
-                    }}>나의 팀모집 목록</h1>
-        <Table striped bordered hover size="sm">
-            <thead>
-                <tr style={{textAlign : "center"}}>
-                    <th>날짜</th>
-                    <th>팀이름</th>
-                    <th>종목</th>
-                    <th>원하는 시간</th>
-                    <th>팀패스워드(없을시 공백)</th>
-                    <th>최대모집인원</th>
-                    <th>모집 문장</th>
-                    <th>편집</th>
-                </tr>
-            </thead>
-            <tbody>{boardList}</tbody>
-            </Table>
+            <h1 style={{
+                marginTop: 80,
+                textAlign: "center"
+            }}>나의 팀모집 목록</h1>
+            <TableContainer component={Paper}>
+                <Table aria-label="collapsible table">
+                    <TableHead>
+                        <TableRow style={{ textAlign: "center" }}>
+                        <TableCell/>
+                            <TableCell>날짜</TableCell>
+                            <TableCell>팀이름</TableCell>
+                            <TableCell>종목</TableCell>
+                            <TableCell>비밀번호</TableCell>
+                            <TableCell>편집</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {boardList}
+                    </TableBody>
+
+                </Table>
+            </TableContainer>
         </>
     )
 };

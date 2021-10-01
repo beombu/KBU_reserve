@@ -6,13 +6,16 @@ import { AuthContext } from "../context/AuthContext";
 import { useHistory } from "react-router";
 import CustomSelect from "../components/CustomSelect";
 import CustomCheckBox from "../components/CustomCheckBox";
+import Button from '@mui/material/Button';
+import TextareaAutosize from '@mui/material/TextareaAutosize';
+
 
 const MakeTeamPage = () =>{
     const [teamName, setTeamName] = useState("");//팀이름
     const [say, setSay] = useState("");//멘트
     const [phoneNumber, setPhoneNumber] = useState("");//전화번호
     const [numberPeople, setNumberPeople] = useState("");//모집인원수
-    const sportsArray = ["스포츠선택","풋살장", "농구장", "탁구장"];
+    const sportsArray = ["스포츠선택","풋살", "농구", "탁구"];
     const [selectedSports, setSelectedSports] = useState("");
     //암호, 원하는 시간 넣을것
     // const [checkedInputs, setCheckedInputs] = useState([]);
@@ -59,9 +62,9 @@ const MakeTeamPage = () =>{
                 "wantPlayTime" : [parseCheckdOne,parseCheckedTwo,parseCheckedThree],
                 "teamPw" : teamPw,
             }
-            if(selectedSports === "풋살장" && parseNumberPeople > 8) throw new Error("풋살장은 최대 8명까지만 이용가능!");
-            if(selectedSports === "농구장" && parseNumberPeople > 10) throw new Error("농구장은 최대 10명까지만 이용가능!");
-            if(selectedSports === "탁구장" && parseNumberPeople > 4) throw new Error("탁구장은 최대 4명까지만 이용가능!");
+            if(selectedSports === "풋살" && parseNumberPeople > 8) throw new Error("풋살은 최대 8명까지만 이용가능!");
+            if(selectedSports === "농구" && parseNumberPeople > 10) throw new Error("농구은 최대 10명까지만 이용가능!");
+            if(selectedSports === "탁구" && parseNumberPeople > 4) throw new Error("탁구은 최대 4명까지만 이용가능!");
             if(selectedSports ==="스포츠선택") throw new Error("스포츠를 선택하세요!");
             if(phoneNumber.length !== 11) throw new Error("전화번호를 확인해주세요!");
             await axios.post("/makeTeam",send_param);
@@ -87,7 +90,7 @@ const MakeTeamPage = () =>{
                 <CustomInput label = "전화번호(ex:01012345678)" value={phoneNumber} setValue = { setPhoneNumber }/>
                 <CustomInput label = "모집인원" value={numberPeople} type="number" setValue = { setNumberPeople }/>
                 <div>
-                    <div>
+                    <div style={{ textAlign: "center" }}>
                     <label>
                         원하는 시간
                     </label>
@@ -97,9 +100,24 @@ const MakeTeamPage = () =>{
                     <CustomCheckBox label="야간(18:00~22:00)" value={checkedThree} setValue ={setCheckedThree}/>
                 </div>
                 <CustomInput label = "참가비밀번호(없으면 공백)" value ={teamPw} setValue={setTeamPw}/>
+                <TextareaAutosize
+                    defaultValue={say}
+                    onChange ={(e)=>setSay(e.target.value)}
+                    maxRows={10}
+                    aria-label="maximum height"
+                    placeholder="모집할 문장을 적으세요."
+                    style={{ width: "100%",height: 150, marginTop:10}}
 
-                <CustomInput label = "모집 문장" value={say} setValue = { setSay }/>
-                <button type="submit">버튼</button>
+                />
+                
+                <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              글쓰기
+            </Button>
             </form>
         </div>
     )

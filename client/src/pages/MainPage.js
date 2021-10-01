@@ -2,13 +2,39 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router";
+import Carousel from 'react-material-ui-carousel';
+import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
 
+function Carousell(props) {
+    const items = [
+        {
+            name: 'Aya Bouchiha',
+            description: 'Full Stack Web Developer',
+        },
+        {
+            name: 'John Doe',
+            description: 'Author',
+        },
+        {
+            name: 'Pitsu Coma',
+            description: 'Math Student',
+        },
+    ];
 
-const MainPage = () => {
+    return (
+        <Carousel>
+            {items.map((item, i) => (
+                <MainPage key={i} {...item} />
+            ))}
+        </Carousel>
+    );
+}
+
+const MainPage = ({name,description}) => {
     const history = useHistory();
     const checkSessionId = localStorage.sessionId;
     const sessionIdUrl = "http://localhost:5000/index/" + checkSessionId;
-    console.log("세션은 : ", sessionIdUrl);
 
 
 const onLinkClick= () =>{
@@ -19,6 +45,12 @@ const onLinkClick= () =>{
     return (
         <div style={{ textAlign: "center" }}>
             <h2 style={{ marginTop: 50 }}>KBU 예약 시스템!</h2>
+            <Paper>
+            <h2>{name}</h2>
+            <p>{description}</p>
+            <Button>more info...</Button>
+        </Paper>
+
 
             {checkSessionId ? (
                 <>
