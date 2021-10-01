@@ -8,6 +8,10 @@ import CustomSelect from "../components/CustomSelect";
 import CustomCheckBox from "../components/CustomCheckBox";
 import Button from '@mui/material/Button';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DatePicker from '@mui/lab/DatePicker';
+import TextField from '@mui/material/TextField';
 
 
 const MakeTeamPage = () =>{
@@ -22,6 +26,7 @@ const MakeTeamPage = () =>{
     const [checkedOne, setCheckedOne] = useState(false);
     const [checkedTwo, setCheckedTwo] = useState(false);
     const [checkedThree, setCheckedThree] = useState(false);
+    const [wantPlayDate, setWantPlayDate] = useState(new Date());
     const [teamPw, setTeamPw] = useState("");//팀 암호
     const [me,] = useContext(AuthContext);
     const history = useHistory();
@@ -29,6 +34,7 @@ const MakeTeamPage = () =>{
     var parseCheckdOne = "";
     var parseCheckedTwo = "";
     var parseCheckedThree = "";
+    
 
     // const changeHandler = (e,id) =>{
     //     if(e.target.checked){
@@ -45,7 +51,7 @@ const MakeTeamPage = () =>{
             parseCheckdOne = checkedOne.toString();
             parseCheckedTwo = checkedTwo.toString();
             parseCheckedThree = checkedThree.toString();
-
+            // dateFilter = wantPlayDate.toISOString().substring(0,10);//2021-10-02형식
             if(parseCheckdOne === "true") parseCheckdOne = "오전(09:00~12:00)"
             else parseCheckdOne = ""
             if(parseCheckedTwo === "true") parseCheckedTwo = "오후(13:00~17:00)"
@@ -60,6 +66,7 @@ const MakeTeamPage = () =>{
                 "maxNumberPeople" :parseNumberPeople,
                 "selectedSports" :selectedSports,
                 "wantPlayTime" : [parseCheckdOne,parseCheckedTwo,parseCheckedThree],
+                "wantPlayDate" : wantPlayDate,
                 "teamPw" : teamPw,
             }
             if(selectedSports === "풋살" && parseNumberPeople > 8) throw new Error("풋살은 최대 8명까지만 이용가능!");
@@ -99,6 +106,16 @@ const MakeTeamPage = () =>{
                     <CustomCheckBox label="오후(13:00~17:00)" value={checkedTwo} setValue ={setCheckedTwo}/>
                     <CustomCheckBox label="야간(18:00~22:00)" value={checkedThree} setValue ={setCheckedThree}/>
                 </div>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DatePicker
+                        label="Date"
+                        value={wantPlayDate}
+                        onChange={(e) => {
+                            setWantPlayDate(e);
+                        }}
+                        renderInput={(wantPlayDate) => <TextField {...wantPlayDate} />}
+                    />
+                </LocalizationProvider>
                 <CustomInput label = "참가비밀번호(없으면 공백)" value ={teamPw} setValue={setTeamPw}/>
                 <TextareaAutosize
                     defaultValue={say}

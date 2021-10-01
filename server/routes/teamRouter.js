@@ -21,6 +21,7 @@ teamRouter.post("/",async(req,res)=>{
             sport : req.body.selectedSports,
             phoneNumber : req.body.phoneNumber,
             wantPlayTime: req.body.wantPlayTime,
+            wantPlayDate : req.body.wantPlayDate,
             teamPw : req.body.teamPw,
             say : req.body.say,
             maxNumberPeople :req.body.maxNumberPeople,

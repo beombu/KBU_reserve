@@ -20,6 +20,7 @@ const TeamSchema = new mongoose.Schema(
         maxNumberPeople : {type:Number, required: true},
         countNumberPeople : {type:Number},
         members : {type:Array, required: true},
+        wantPlayDate : {type:Date, required:true},
         createdAt:{
             type: Date,
             default: Date.now
