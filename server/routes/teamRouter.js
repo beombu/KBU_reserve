@@ -19,10 +19,8 @@ teamRouter.post("/",async(req,res)=>{
             writer : req.body._id,
             teamName: req.body.teamName,
             sport : req.body.selectedSports,
-            phoneNumber : req.body.phoneNumber,
             wantPlayTime: req.body.wantPlayTime,
             wantPlayDate : req.body.wantPlayDate,
-            teamPw : req.body.teamPw,
             say : req.body.say,
             maxNumberPeople :req.body.maxNumberPeople,
             countNumberPeople : 1,
@@ -51,7 +49,6 @@ teamRouter.post("/getBoardList", async (req,res) => {
         const board = await Teams.find({writer:{_id}},null,{
             sort:{createAt:-1}
         });
-        console.log("ㅇ떻게 나온ㅁ?",board);
         res.json({board});
     }catch(err){
         console.error(err);
@@ -102,9 +99,7 @@ teamRouter.post("/update",async(req,res)=>{
                 $set:{
                     teamName: req.body.teamName,
                     sport : req.body.selectedSports,
-                    phoneNumber : req.body.phoneNumber,
                     wantPlayTime: req.body.wantPlayTime,
-                    teamPw : req.body.teamPw,
                     say : req.body.say,
                     maxNumberPeople :req.body.maxNumberPeople,
                 }

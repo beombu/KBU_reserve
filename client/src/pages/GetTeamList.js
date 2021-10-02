@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, {useState, useEffect} from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router";
@@ -85,9 +85,6 @@ const GetTeamList = () =>{
                         </TableCell>
                         <TableCell >{item.sport}</TableCell>
                         <TableCell>
-                            {item.teamPw}
-                        </TableCell>
-                        <TableCell>
                             <Link to={"/makeTeam/modify/" + item._id}> <input type='button' value='수정' /></Link>
                             <input type='button' value="삭제" onClick={() => removePost(item._id)} />
                         </TableCell>
@@ -158,7 +155,6 @@ const GetTeamList = () =>{
                             <TableCell>날짜</TableCell>
                             <TableCell>팀이름</TableCell>
                             <TableCell>종목</TableCell>
-                            <TableCell>비밀번호</TableCell>
                             <TableCell>편집</TableCell>
                         </TableRow>
                     </TableHead>

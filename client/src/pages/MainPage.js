@@ -34,7 +34,6 @@ function Carousell(props) {
 const MainPage = ({name,description}) => {
     const history = useHistory();
     const checkSessionId = localStorage.sessionId;
-    const sessionIdUrl = "http://localhost:5000/index/" + checkSessionId;
 
 
 const onLinkClick= () =>{
@@ -57,9 +56,6 @@ const onLinkClick= () =>{
                     <Link to="/makeTeam">
                         <span style={{ marginRight: 100 }} >팀만들기</span>
                     </Link>
-                    <a href={sessionIdUrl}>
-                        팀 참가하기
-                    </a>
                     <Link to="/participate">
                         <span style={{ marginRight: 100 }} > 임시 버튼</span>
                     </Link>

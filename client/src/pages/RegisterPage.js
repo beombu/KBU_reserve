@@ -121,28 +121,6 @@ const RegisterPage = () => {
             </Container>
         </ThemeProvider>
 
-
-        // <div style={{
-        //     marginTop:100,
-        //     maxWidth:350,
-        //     marginLeft:"auto",
-        //     marginRight:"auto",
-        // }}>
-        //     <h3>회원가입</h3>
-        //     <form onSubmit={submitHandler}>
-        //         <CustomInput label = "이름" value={name} setValue={ setName }/>
-        //         <CustomInput label = "회원ID" value={username} setValue={ setUsername }/>
-        //         <CustomInput label = "비밀번호" value={password} type="password" setValue={ setPassword }/>
-        //         <CustomInput label = "비밀번호확인" value={passwordCheck} type="password" setValue={ setPasswordCheck }/>
-        //         <CustomInput label = "이메일" value={email} setValue = { setEmail }/>
-        //         <CustomInput label = "전화번호(ex:01012345678)" value={phoneNumber} setValue = { setPhoneNumber }/>
-        //         <CustomSelect label = "성별  :  " value={selectedSex} selectArray = {sexAarry} setValue = {setSelectedSex}/>
-        //         <CustomSelect label = "학과  :  " value={selectedMajor} selectArray = {majorArray} setValue = {setSelectedMajor}/>
-        //         <CustomInput label = "학번" value={kbuCode} setValue = { setkbuCode }/>
-        //         <button type="submit">버튼</button>
-        //     </form>
-
-        // </div>
     );
 };
 
