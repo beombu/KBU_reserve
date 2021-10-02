@@ -51,7 +51,20 @@ teamRouter.post("/getBoardList", async (req,res) => {
         const board = await Teams.find({writer:{_id}},null,{
             sort:{createAt:-1}
         });
+        console.log("ㅇ떻게 나온ㅁ?",board);
         res.json({board});
+    }catch(err){
+        console.error(err);
+        res.status(400).json({message:err.message});
+    }
+})
+
+teamRouter.get("/participate",async (req,res)=>{
+    try{
+        const boardAll = await Teams.find({},null,{
+            sort:{createAt:-1}
+        });
+        res.json({boardAll});
     }catch(err){
         console.error(err);
         res.status(400).json({message:err.message});
@@ -103,5 +116,7 @@ teamRouter.post("/update",async(req,res)=>{
         res.status(400).json({message:err.message});
     }
 })
+
+
 
 module.exports = {teamRouter};

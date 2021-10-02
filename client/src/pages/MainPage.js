@@ -60,6 +60,9 @@ const onLinkClick= () =>{
                     <a href={sessionIdUrl}>
                         팀 참가하기
                     </a>
+                    <Link to="/participate">
+                        <span style={{ marginRight: 100 }} > 임시 버튼</span>
+                    </Link>
                 </>
             ) : (
                 <>

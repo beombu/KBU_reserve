@@ -9,6 +9,7 @@ import ToolBar from "./components/ToolBar";
 import MakeTeamPage from "./pages/MakeTeamPage";
 import GetTeamList from "./pages/GetTeamList";
 import ModifyMakeTeam from "./pages/ModifyMakeTeam";
+import Participate from "./pages/Participate";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
       <Route path= "/makeTeam" exact component = { MakeTeamPage } />
       <Route path= "/mypage/getteamlist" exact component = { GetTeamList } />
       <Route path= "/makeTeam/modify/:data" exact component ={ ModifyMakeTeam }/>
+      <Route path= "/participate" exact component ={ Participate }/>
     </Switch>
     </div>
   );

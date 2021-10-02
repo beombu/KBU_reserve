@@ -12,6 +12,24 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 import TextField from '@mui/material/TextField';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import ListItemText from '@mui/material/ListItemText';
+import Select from '@mui/material/Select';
+import Checkbox from '@mui/material/Checkbox';
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
 
 
 const MakeTeamPage = () =>{
@@ -27,6 +45,7 @@ const MakeTeamPage = () =>{
     const [checkedTwo, setCheckedTwo] = useState(false);
     const [checkedThree, setCheckedThree] = useState(false);
     const [wantPlayDate, setWantPlayDate] = useState(new Date());
+    const [personName, setPersonName] = useState([]);
     const [teamPw, setTeamPw] = useState("");//팀 암호
     const [me,] = useContext(AuthContext);
     const history = useHistory();
@@ -34,19 +53,32 @@ const MakeTeamPage = () =>{
     var parseCheckdOne = "";
     var parseCheckedTwo = "";
     var parseCheckedThree = "";
+    const selectTime = [
+        '08:00 ~ 10:00',
+        '10:00 ~ 12:00',
+        '12:00 ~ 14:00',
+        '14:00 ~ 16:00',
+        '16:00 ~ 18:00',
+        '18:00 ~ 20:00',
+        '20:00 ~ 22:00',
+        '22:00 ~ 24:00',
+    ]
     
 
-    // const changeHandler = (e,id) =>{
-    //     if(e.target.checked){
-    //         setCheckedInputs([...checkedInputs,id]);
+    const timeHandler = (e) => {
+        const {
+          target: { value },
+        } = e;
+        setPersonName(
+          // On autofill we get a the stringified value.
+          typeof value === 'string' ? value.split(',') : value,
+        );
+      };
 
-    //     }else{
-    //         setCheckedInputs(checkedInputs.filter((el)=> el !== id));
-    //     }
-    // };
     const submitHandler = async (e) =>{
         try{
             e.preventDefault();
+            console.log("너 어떻게 출력해?",personName );
             parseNumberPeople = parseInt(numberPeople);
             parseCheckdOne = checkedOne.toString();
             parseCheckedTwo = checkedTwo.toString();
@@ -116,6 +148,29 @@ const MakeTeamPage = () =>{
                         renderInput={(wantPlayDate) => <TextField {...wantPlayDate} />}
                     />
                 </LocalizationProvider>
+                <div>
+                    <FormControl sx={{ m: 1, width: 300 }}>
+                        <InputLabel id="demo-multiple-checkbox-label">원하는 시간(중복선택가능)</InputLabel>
+                        <Select
+                            labelId="demo-multiple-checkbox-label"
+                            id="demo-multiple-checkbox"
+                            multiple
+                            fullWidth
+                            value={personName}
+                            onChange={timeHandler}
+                            input={<OutlinedInput label="원하는 시간(중복선택가능)" />}
+                            renderValue={(selected) => selected.join(', ')}
+                            MenuProps={MenuProps}
+                        >
+                            {selectTime.map((time) => (
+                                <MenuItem key={time} value={time}>
+                                    <Checkbox checked={personName.indexOf(time) > -1} />
+                                    <ListItemText primary={time} />
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </div>
                 <CustomInput label = "참가비밀번호(없으면 공백)" value ={teamPw} setValue={setTeamPw}/>
                 <TextareaAutosize
                     defaultValue={say}
