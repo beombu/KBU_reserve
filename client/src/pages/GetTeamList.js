@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router";
@@ -26,6 +26,7 @@ const GetTeamList = () =>{
     const history = useHistory();
     // const firstRender = useRef(true);
 
+
     useEffect(() =>{
         // if(firstRender){
         //     firstRender.current = false;
@@ -34,6 +35,7 @@ const GetTeamList = () =>{
         getBoradList();
     },[open]);
             
+
 
     const removePost = (_id) =>{
         const send_param ={
@@ -52,7 +54,14 @@ const GetTeamList = () =>{
         }
     }
 
+    const clickHandler =(i) =>{
+        // console.log(_id);
+        setOpen(!open);
+        console.log("후,,,",i);
+    }
+
     const getBoradList = () =>{
+
         const send_param = {
             sessionId: session,
         };
@@ -62,22 +71,22 @@ const GetTeamList = () =>{
             let boardList;
             if(returnData.data.board.length>0){
                 const boards = returnData.data.board;
-                boardList = boards.map((item,v) =>(
-                    <React.Fragment>
+                boardList = boards.map((item,i) =>(
+                    <React.Fragment key={item._id} >
                     <TableRow
-                        key={item._id}
                         sx={{ '& > *': { borderBottom: 'unset' } }}
                     >
                         <TableCell>
                             <IconButton
+                                id={i}
                                 aria-label="expand row"
                                 size="small"
-                                onClick={() => setOpen(!open)}
+                                onClick={()=>clickHandler(i)}
                             >
                                 {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                             </IconButton>
                         </TableCell>
-                        <TableCell>
+                        <TableCell component="th" scope="item">
                             {item.createdAt.substring(0,10)}
                         </TableCell>
                         <TableCell>
@@ -89,7 +98,7 @@ const GetTeamList = () =>{
                             <input type='button' value="삭제" onClick={() => removePost(item._id)} />
                         </TableCell>
                     </TableRow>
-                          <TableRow>
+                          <TableRow>{/* 이건 0->props>children>1 */}
                           <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                             <Collapse in={open} timeout="auto" unmountOnExit>
                               <Box sx={{ margin: 1 }}>
@@ -107,8 +116,8 @@ const GetTeamList = () =>{
                                   </TableHead>
                                   <TableBody>
                                     {item.members.map((Row) => (
-                                      <TableRow>
-                                        <TableCell>
+                                      <TableRow key={Row._id}>
+                                        <TableCell component="th" scope="item">
                                           {Row.name}
                                         </TableCell>
                                         <TableCell>{Row.phoneNumber}</TableCell>
@@ -141,6 +150,8 @@ const GetTeamList = () =>{
         })
         
     }
+    console.log("dlsetytm",boardList);
+
     return (
         <>
             <h1 style={{

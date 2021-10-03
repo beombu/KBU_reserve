@@ -12,8 +12,11 @@ teamRouter.post("/",async(req,res)=>{
         throw new Error("농구장엔 10명까지만 들어갈수있어요!")
         if(req.body.selectedSports ==="탁구장" && req.body.parseNumberPeople > 4)
         throw new Error("탁구장엔 4명까지만 들어갈수있어요!")
+        if(await Teams.findOne({$and :[{sport:req.body.selectedSports},{wantPlayDate:req.body.wantPlayDate},{wantPlayTime:{$in:req.body.wantPlayTime}}]}))
+        throw new Error({message:"이미 예약되어있습니다"});
 
         const user = await User.findOne({_id:req.body._id});
+        const findone = await Teams.findOne({$and :[{sport:req.body.selectedSports},{wantPlayDate:req.body.wantPlayDate},{wantPlayTime:{$in:req.body.wantPlayTime}}]})
         const Team = await new Teams({
         
             writer : req.body._id,
@@ -25,15 +28,18 @@ teamRouter.post("/",async(req,res)=>{
             maxNumberPeople :req.body.maxNumberPeople,
             countNumberPeople : 1,
             members : [
-                {
+                {   
+                    _id: user._id,
                     name : user.name,
                     email : user.email,
                     phoneNumber : user.phoneNumber,
                     sex : user.sex,
                     major : user.major,
+                    createdAt : user.createdAt
                 }
             ]
         }).save();
+        console.log("왜 안찍혀",findone);
         res.json({message: "Team make success"})
     }catch(err){
         console.error(err);
@@ -54,6 +60,18 @@ teamRouter.post("/getBoardList", async (req,res) => {
         console.error(err);
         res.status(400).json({message:err.message});
     }
+})
+
+teamRouter.post("/checkedTime",async(req,res)=>{
+    try{
+        const findall = await Teams.find({$and :[{sport:req.body.selectedSports},{wantPlayDate:req.body.wantPlayDate}]},{wantPlayTime:true});
+        res.json({findall});
+        console.log("너 뭐야",findall);
+    }catch(err){
+        console.error(err);
+        res.status(400).json({message:err.message});
+    }
+
 })
 
 teamRouter.get("/participate",async (req,res)=>{

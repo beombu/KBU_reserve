@@ -1,4 +1,4 @@
-import React, {useContext, useState } from "react";
+import React, {useContext, useState,useEffect } from "react";
 import CustomInput from "../components/CustomInput";
 import { toast} from "react-toastify";
 import axios from "axios";
@@ -42,6 +42,7 @@ const MakeTeamPage = () =>{
     const [me,] = useContext(AuthContext);
     const history = useHistory();
     var parseNumberPeople = 0;
+    var dateFilter = '';
     const selectTime = [
         '10:00 ~ 12:00',
         '12:00 ~ 14:00',
@@ -51,7 +52,27 @@ const MakeTeamPage = () =>{
         '20:00 ~ 22:00',
         '22:00 ~ 24:00',
     ]
-    
+
+
+    useEffect(()=>{
+        dateFilter = wantPlayDate.toISOString().substring(0,10);
+        const send_param={
+            "wantPlayDate" : dateFilter,
+            "selectedSports" : selectedSports
+        };
+        axios.post("makeTeam/checkedTime",send_param)
+        .then(res=>{
+            console.log("진짜인가?",res.data.findall);
+        })
+    },[wantPlayDate,selectedSports])
+    // const checkedTime = ()=>{
+    //     const send_param={
+    //         wantPlayDate,
+    //         selectedSports
+    //     };
+    //     axios.post("makeTeam/checkedTime",send_param)
+    //     .then()
+    // }
 
     const timeHandler = (e) => {
         const {
@@ -67,7 +88,7 @@ const MakeTeamPage = () =>{
         try{
             e.preventDefault();
             parseNumberPeople = parseInt(numberPeople);
-            // dateFilter = wantPlayDate.toISOString().substring(0,10);//2021-10-02형식
+            dateFilter = wantPlayDate.toISOString().substring(0,10);//2021-10-02형식
             const send_param = {
                 "_id" : me.userId,
                 "teamName" : teamName,
@@ -75,7 +96,7 @@ const MakeTeamPage = () =>{
                 "maxNumberPeople" :parseNumberPeople,
                 "selectedSports" :selectedSports,
                 "wantPlayTime" : wantPlayTime,
-                "wantPlayDate" : wantPlayDate,
+                "wantPlayDate" : dateFilter,
             }
             if(selectedSports === "풋살" && parseNumberPeople > 8) throw new Error("풋살은 최대 8명까지만 이용가능!");
             if(selectedSports === "농구" && parseNumberPeople > 10) throw new Error("농구은 최대 10명까지만 이용가능!");
@@ -87,6 +108,7 @@ const MakeTeamPage = () =>{
         } catch(err){
             console.error(err);
             toast.error(err.message);
+            alert(err);
         }
     }
 

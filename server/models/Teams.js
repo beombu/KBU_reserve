@@ -11,7 +11,7 @@ const TeamSchema = new mongoose.Schema(
             required: true,
             ref: "User"
         },
-        teamName: {type:String, required: true},
+        teamName: {type:String, required: true, unique:true},
         sport :{ type:String, required:true},
         wantPlayTime : {type:Array, required:true},
         wantPlayDate : {type:Date, required:true},
