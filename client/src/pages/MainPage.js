@@ -3,22 +3,11 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router";
 import Carousel from 'react-material-ui-carousel';
-// import Button from '@mui/material/Button';
-// import Paper from '@mui/material/Paper';
 import { Paper, Button } from '@material-ui/core';
-
-
-// return (
-//     <Carousel>
-//         {items.map((item, i) => (
-//             <MainPage key={i} {...item} />
-//         ))}
-//     </Carousel>
-// );
-
-
-
-
+import styled from 'styled-components';
+// import imgUrl1 from '../img/football.jpg'
+// const imgUrl2 = require('../../public/');
+// const imgUrl3 = require('../../public/');
 
 const MainPage = ({ name, description }) => {
     const history = useHistory();
@@ -33,8 +22,8 @@ const MainPage = ({ name, description }) => {
 
     const items = [
         {
-            name: '제 1회 총장배 풋살대회',
-            description: '상금 30만원',
+            name: '코로나로 지처있던 학우들의 화합을 위하여 만들었습니다!',
+            description: 'from 범철, 상준',
             imgURL: ''
         },
         {
@@ -49,12 +38,43 @@ const MainPage = ({ name, description }) => {
         },
     ];
 
+    const IMG = styled.img`
+        width: 300px;
+        height: 400px;
+        padding: 100;     
+        width: 100%;
+    `;
 
-    const Item = ({ name, description }) => {
+    const Item = ({ name, description, imgURL }) => {
         return (
             <Paper>
                 <h2>{name}</h2>
                 <p>{description}</p>
+                <IMG 
+                    src ={ imgURL }
+                />
+
+                {checkSessionId ? (
+                    <>
+                        <Link to="/makeTeam">
+                            <span style={{ marginRight: 100}} >팀만들기</span>
+                        </Link>
+
+                        <Link to="/participate">
+                            <span style={{ marginRight: 0}} >참가하기</span>
+                        </Link>
+                    </>
+                ) : (
+                    <>
+                        <Link to="/" onClick={onLinkClick}>
+                            <span style={{ marginRight: 100}} >팀만들기</span>
+                        </Link>
+                        <Link to="/" onClick={onLinkClick}>
+                            <span style={{ marginRight: 0}}>참가하기</span>
+                        </Link>
+                    </>
+                    )
+                }
             </Paper>
         );
     };
@@ -68,28 +88,6 @@ const MainPage = ({ name, description }) => {
                     <Item key={i} {...item} />
                 ))}
             </Carousel>
-
-
-            {checkSessionId ? (
-                    <>
-                        <Link to="/makeTeam">
-                            <span style={{ marginRight: 100 }} >팀만들기</span>
-                        </Link>
-
-                        <Link to="/participate">
-                            <span style={{ marginRight: 0 }} > 임시 버튼</span>
-                        </Link>
-                    </>
-                ) : (
-                    <>
-                        <Link to="/" onClick={onLinkClick}>
-                            <span style={{ marginRight: 100 }} >팀만들기</span>
-                        </Link>
-                        <Link to="/" onClick={onLinkClick}>
-                            <span>팀참가하기</span>
-                        </Link>
-                    </>
-                )}
         </div>
     )
 };

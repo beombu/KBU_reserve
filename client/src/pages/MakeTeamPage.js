@@ -18,6 +18,7 @@ import FormControl from '@mui/material/FormControl';
 import ListItemText from '@mui/material/ListItemText';
 import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
+import { typographyVariant } from "@mui/system";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -43,7 +44,7 @@ const MakeTeamPage = () =>{
     const history = useHistory();
     var parseNumberPeople = 0;
     var dateFilter = '';
-    const selectTime = [
+    const [selectTime,setSelectTime] = useState([
         '10:00 ~ 12:00',
         '12:00 ~ 14:00',
         '14:00 ~ 16:00',
@@ -51,7 +52,16 @@ const MakeTeamPage = () =>{
         '18:00 ~ 20:00',
         '20:00 ~ 22:00',
         '22:00 ~ 24:00',
-    ]
+    ]);
+    var sampleTime =[
+        '10:00 ~ 12:00',
+        '12:00 ~ 14:00',
+        '14:00 ~ 16:00',
+        '16:00 ~ 18:00',
+        '18:00 ~ 20:00',
+        '20:00 ~ 22:00',
+        '22:00 ~ 24:00'
+    ];
 
 
     useEffect(()=>{
@@ -62,16 +72,25 @@ const MakeTeamPage = () =>{
         };
         axios.post("makeTeam/checkedTime",send_param)
         .then(res=>{
-            console.log("진짜인가?",res.data.findall);
+            const difference = sampleTime.filter(x=>!res.data.reducer.includes(x));//이미 예약되어있는 시간 => 빈 예약시간
+            setSelectTime([...difference]);
         })
-    },[wantPlayDate,selectedSports])
+    },[wantPlayDate,selectedSports]);
+
     // const checkedTime = ()=>{
+    //     dateFilter = wantPlayDate.toISOString().substring(0,10);
     //     const send_param={
-    //         wantPlayDate,
-    //         selectedSports
+    //         "wantPlayDate" : dateFilter,
+    //         "selectedSports" : selectedSports
     //     };
     //     axios.post("makeTeam/checkedTime",send_param)
-    //     .then()
+    //     .then(res=>{
+    //         console.log("진짜인가?",res.data.reducer);
+    //         selectTime = selectTime.filter(x=>!res.data.reducer.includes(x));
+    //         // setWantPlayTime([...difference]);
+    //         console.log("남은 값은 : ",selectTime);
+
+    //     })
     // }
 
     const timeHandler = (e) => {
