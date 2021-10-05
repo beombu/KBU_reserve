@@ -107,40 +107,46 @@ teamRouter.post("/participate/count", async (req, res) => {
         const team = await Teams.findOne({ "_id": teamId });// 참가버튼 누른 테이블의 아이디
         const user = await User.findOne({ "sessions._id": [sessionid] });// 지금 로그인한 유저의 세션
 
-        if (team.countNumberPeople < team.maxNumberPeople) {
-            Teams.findOneAndUpdate({ _id: teamId },
-                {
-                    $push: {
-                        members: {
-                            _id: user._id,
-                            name: user.name,
-                            email: user.email,
-                            phoneNumber: user.phoneNumber,
-                            sex: user.sex,
-                            major: user.major
-                        }
-                    }
-                }).exec();
+        const boardAll = await Teams.find({}, null, {
+            sort: { createAt: -1 }
+        });
 
-            Teams.findOneAndUpdate({ _id: teamId }, {
-                $inc: { countNumberPeople: 1 }
-            }).exec();
-            res.status(201)
-            .json(
-                {
-                    message: "참가완료되었습니다.",
-                    url: "http://localhost:3000/participate"
-                });
-        }else {
-            res.status(400)
-        }
-    }
 
-    catch (err) {
+        if (team.countNumberPeople < team.maxNumberPeople) {  
+            
+            const phoneArr = []
+            team.members.forEach(e => {
+                phoneArr.push(e.phoneNumber);
+            });
+
+            if(!(phoneArr.includes(user.phoneNumber))){
+                Teams.findOneAndUpdate({ _id: teamId },
+                    {
+                        $push: {
+                            members: {
+                                _id: user._id,
+                                name: user.name,
+                                email: user.email,
+                                phoneNumber: user.phoneNumber,
+                                sex: user.sex,
+                                major: user.major,
+                                createdAt: user.createAt
+                            }
+                        },
+                        $inc: { countNumberPeople: 1 }
+                }).exec(); 
+                res.json({message})
+            }else{
+                
+            }
+        }else{}       
+    }catch (err) {
         console.error(err);
         res.status(400).json({ message: err.message });
     }
 })
+
+
 
 teamRouter.post("/delete",async(req,res) =>{
     try{

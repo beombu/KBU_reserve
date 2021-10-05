@@ -37,7 +37,8 @@ const Participate = () =>{
              axios.post("/makeTeam/participate/count",send_param)
             .then(returnMessage =>{
                 toast.success(returnMessage.message);
-                history.push("/");
+                toast.success("참가되었습니다.");
+                history.push("participate");//렌더링 문제 해결후 url 수정
             })
             .catch(err=>{
                 console.error(err);
