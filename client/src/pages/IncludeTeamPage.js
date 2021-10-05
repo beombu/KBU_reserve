@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { Redirect } from "react-router-dom";
-import Table from '@mui/material/Table';
 import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
+import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -13,20 +13,22 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 
 
-
-
-const Participate = () =>{
+const IncludeTeamPage = () =>{
     
     const [boardList,setBoardList] = useState([]);
     const [session,] = useState(localStorage.getItem("sessionId"));
     const history = useHistory();
-    
-    useEffect(() =>{
+    // const firstRender = useRef(true);
 
-        getBoradList();
+
+    useEffect(() =>{
+        // if(firstRender){
+        //     firstRender.current = false;
+        //     return;
+        // }
+        getMyTeamList();
     },[]);
             
-
     const count = (_id) =>{
         const send_param ={
             sessionId : session,//client's sessionid
@@ -45,25 +47,25 @@ const Participate = () =>{
             })
         }
     }
-
+    
     const message = (message) =>{
         return alert(message)
     }
 
 
+    const getMyTeamList = () =>{
 
-    const getBoradList = () =>{
-        // const send_param = {
-        //     sessionId: session,
-        // };
+        const send_param = {
+            sessionId: session,
+        };
         axios
-        .get("/makeTeam/participate")
+        .post("/makeTeam/includeList",send_param)
         .then(returnData =>{
             let boardList;
-            if(returnData.data.boardAll.length>0){
-                const boards = returnData.data.boardAll;
+            if(returnData.data.board.length>0){
+                const boards = returnData.data.board;
                 boardList = boards.map((item) =>(
-                    <TableRow key={item._id} style={{ textAlign: "center" }}>                      
+                    <TableRow key={item._id} style={{ textAlign: "center" }}>
                         <TableCell>{item.teamName}</TableCell>
                         <TableCell >{item.sport}</TableCell>
                         <TableCell></TableCell>
@@ -93,6 +95,8 @@ const Participate = () =>{
         })
         
     }
+    console.log("dlsetytm",boardList);
+
     return (
         <>
             <h1 style={{
@@ -100,14 +104,14 @@ const Participate = () =>{
                 textAlign: "center"
             }}>나의 팀모집 목록</h1>
             <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <Table aria-label="collapsible table">
                     <TableHead>
                         <TableRow style={{ textAlign: "center" }}>
-                            <TableCell>팀명</TableCell>
+                        <TableCell/>
+                            <TableCell>날짜</TableCell>
+                            <TableCell>팀이름</TableCell>
                             <TableCell>종목</TableCell>
-                            <TableCell>시간</TableCell>
-                            <TableCell>메시지</TableCell>
-                            <TableCell>현재원 / 모집인원</TableCell>
+                            <TableCell>편집</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -120,4 +124,4 @@ const Participate = () =>{
     )
 };
 
-export default Participate;
+export default IncludeTeamPage;

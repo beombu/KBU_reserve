@@ -18,7 +18,6 @@ import FormControl from '@mui/material/FormControl';
 import ListItemText from '@mui/material/ListItemText';
 import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
-import { typographyVariant } from "@mui/system";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -127,7 +126,7 @@ const MakeTeamPage = () =>{
         } catch(err){
             console.error(err);
             toast.error(err.message);
-            alert(err);
+            console.log(err);
         }
     }
 

@@ -6,18 +6,17 @@ const mongoose = require("mongoose");
 
 teamRouter.post("/",async(req,res)=>{
     try{
-        if(req.body.selectedSports ==="풋살장" && req.body.parseNumberPeople > 8)
-        throw new Error("풋살장엔 8명까지만 들어갈수있어요!")
-        if(req.body.selectedSports ==="농구장" && req.body.parseNumberPeople > 10)
-        throw new Error("농구장엔 10명까지만 들어갈수있어요!")
-        if(req.body.selectedSports ==="탁구장" && req.body.parseNumberPeople > 4)
-        throw new Error("탁구장엔 4명까지만 들어갈수있어요!")
+        if(req.body.selectedSports ==="풋살" && req.body.parseNumberPeople > 8)
+        throw new Error("풋살엔 8명까지만 들어갈수있어요!")
+        if(req.body.selectedSports ==="농구" && req.body.parseNumberPeople > 10)
+        throw new Error("농구엔 10명까지만 들어갈수있어요!")
+        if(req.body.selectedSports ==="탁구" && req.body.parseNumberPeople > 4)
+        throw new Error("탁구엔 4명까지만 들어갈수있어요!")
         if(await Teams.findOne({$and :[{sport:req.body.selectedSports},{wantPlayDate:req.body.wantPlayDate},{wantPlayTime:{$in:req.body.wantPlayTime}}]}))//스포츠 && 데이트 && 시간(하나라도 잇으면) 있으면 오류
         throw new Error({message:"이미 예약되어있습니다"});
 
         const user = await User.findOne({_id:req.body._id});
         await new Teams({
-        
             writer : req.body._id,
             teamName: req.body.teamName,
             sport : req.body.selectedSports,
@@ -42,6 +41,7 @@ teamRouter.post("/",async(req,res)=>{
     }catch(err){
         console.error(err);
         res.status(400).json({message:err.message});
+        console.log(err);
     }
 })
 
@@ -60,6 +60,22 @@ teamRouter.post("/getBoardList", async (req,res) => {
     }
 })
 
+teamRouter.post("/includeList", async (req,res) => {
+    try{
+        const sessionId = req.body.sessionId;//localStorage의 sessionId값
+        const user_sessionId = await User.findOne({ "sessions._id": [sessionId] });
+        const _id = user_sessionId._id;
+        const board = await Teams.find({"members":{$elemMatch:{"_id":_id}}},null,{
+            sort:{createAt:-1}
+        });
+        console.log(board);
+        res.json({board});
+    }catch(err){
+        console.error(err);
+        res.status(400).json({message:err.message});
+    }
+})
+
 teamRouter.post("/checkedTime",async(req,res)=>{
     try{
         const findall = await Teams.find({$and :[{sport:req.body.selectedSports},{wantPlayDate:req.body.wantPlayDate}]},{wantPlayTime:true});//스포츠 && 데이트인 모든 테이블의 시간만 추출
@@ -69,7 +85,6 @@ teamRouter.post("/checkedTime",async(req,res)=>{
         console.error(err);
         res.status(400).json({message:err.message});
     }
-
 })
 
 teamRouter.get("/participate",async (req,res)=>{
@@ -81,6 +96,49 @@ teamRouter.get("/participate",async (req,res)=>{
     }catch(err){
         console.error(err);
         res.status(400).json({message:err.message});
+    }
+})
+
+teamRouter.post("/participate/count", async (req, res) => {
+    try {
+        const teamId = req.body._id;// Teams DB의 _id
+        const sessionid = req.body.sessionId
+
+        const team = await Teams.findOne({ "_id": teamId });// 참가버튼 누른 테이블의 아이디
+        const user = await User.findOne({ "sessions._id": [sessionid] });// 지금 로그인한 유저의 세션
+
+        if (team.countNumberPeople < team.maxNumberPeople) {
+            Teams.findOneAndUpdate({ _id: teamId },
+                {
+                    $push: {
+                        members: {
+                            _id: user._id,
+                            name: user.name,
+                            email: user.email,
+                            phoneNumber: user.phoneNumber,
+                            sex: user.sex,
+                            major: user.major
+                        }
+                    }
+                }).exec();
+
+            Teams.findOneAndUpdate({ _id: teamId }, {
+                $inc: { countNumberPeople: 1 }
+            }).exec();
+            res.status(201)
+            .json(
+                {
+                    message: "참가완료되었습니다.",
+                    url: "http://localhost:3000/participate"
+                });
+        }else {
+            res.status(400)
+        }
+    }
+
+    catch (err) {
+        console.error(err);
+        res.status(400).json({ message: err.message });
     }
 })
 

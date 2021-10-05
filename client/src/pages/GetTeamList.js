@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router";
@@ -18,139 +18,149 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 
-const GetTeamList = () =>{
-    
-    const [boardList,setBoardList] = useState([]);
+const GetTeamList = () => {
+
+    const [boardList, setBoardList] = useState([]);
+   //const [openIndex, setOpenIndex] = useState([false,false,false,false]);
     const [session,] = useState(localStorage.getItem("sessionId"));
     const [open, setOpen] = useState(false);
     const history = useHistory();
     // const firstRender = useRef(true);
 
 
-    useEffect(() =>{
+    useEffect(() => {
+        if(!boardList) return        
         // if(firstRender){
         //     firstRender.current = false;
         //     return;
         // }
         getBoradList();
-    },[open]);
-            
+    }, [open]);
+
+    console.log("너의 값은 : ",open);
 
 
-    const removePost = (_id) =>{
-        const send_param ={
+
+    const removePost = (_id) => {
+        const send_param = {
             _id
         };
-        if(window.confirm("정말 삭제하시겠습니까?")){
-            axios.post("/makeTeam/delete",send_param)
-            .then(returnData=>{
-                toast.success("글 삭제 성공!");
-                history.push("/");//렌더링 문제 해결후 url 수정
-            })
-            .catch(err=>{
-                console.error(err);
-                toast.error(err.message);
-            })
+        if (window.confirm("정말 삭제하시겠습니까?")) {
+            axios.post("/makeTeam/delete", send_param)
+                .then(returnData => {
+                    toast.success("글 삭제 성공!");
+                    history.push("/");//렌더링 문제 해결후 url 수정
+                })
+                .catch(err => {
+                    console.error(err);
+                    toast.error(err.message);
+                })
         }
     }
 
-    const clickHandler =(i) =>{
-        // console.log(_id);
-        setOpen(!open);
-        console.log("후,,,",i);
+    const clickHandler = () => {
+        setOpen(!open);//이걸로 인해 open = true
+        // setOpenIndex[i](()=>open);
+        //setOpenIndex[i](()=>open);
     }
 
-    const getBoradList = () =>{
+    const getBoradList = () => {
 
         const send_param = {
             sessionId: session,
         };
         axios
-        .post("/makeTeam/getBoardList",send_param)
-        .then(returnData =>{
-            let boardList;
-            if(returnData.data.board.length>0){
-                const boards = returnData.data.board;
-                boardList = boards.map((item,i) =>(
-                    <React.Fragment key={item._id} >
-                    <TableRow
-                        sx={{ '& > *': { borderBottom: 'unset' } }}
-                    >
-                        <TableCell>
-                            <IconButton
-                                id={i}
-                                aria-label="expand row"
-                                size="small"
-                                onClick={()=>clickHandler(i)}
+            .post("/makeTeam/getBoardList", send_param)
+            .then(returnData => {
+                let boardList;
+                if (returnData.data.board.length > 0) {
+                    const boards = returnData.data.board;
+                    boardList = boards.map((item, i) => (
+
+                        <React.Fragment key={item._id} >
+                            <TableRow
+                                sx={{ '& > *': { borderBottom: 'unset' } }}
                             >
-                                {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                            </IconButton>
-                        </TableCell>
-                        <TableCell component="th" scope="item">
-                            {item.createdAt.substring(0,10)}
-                        </TableCell>
-                        <TableCell>
-                            {item.teamName}
-                        </TableCell>
-                        <TableCell >{item.sport}</TableCell>
-                        <TableCell>
-                            <Link to={"/makeTeam/modify/" + item._id}> <input type='button' value='수정' /></Link>
-                            <input type='button' value="삭제" onClick={() => removePost(item._id)} />
-                        </TableCell>
-                    </TableRow>
-                          <TableRow>{/* 이건 0->props>children>1 */}
-                          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                            <Collapse in={open} timeout="auto" unmountOnExit>
-                              <Box sx={{ margin: 1 }}>
-                                <Typography variant="h6" gutterBottom component="div">
-                                  팀원 정보
-                                </Typography>
-                                <Table size="small" aria-label="purchases">
-                                  <TableHead>
-                                    <TableRow>
-                                      <TableCell>이름</TableCell>
-                                      <TableCell>전화번호</TableCell>
-                                      <TableCell>성별</TableCell>
-                                      <TableCell>학과</TableCell>
-                                    </TableRow>
-                                  </TableHead>
-                                  <TableBody>
-                                    {item.members.map((Row) => (
-                                      <TableRow key={Row._id}>
-                                        <TableCell component="th" scope="item">
-                                          {Row.name}
-                                        </TableCell>
-                                        <TableCell>{Row.phoneNumber}</TableCell>
-                                        <TableCell>{Row.sex}</TableCell>
-                                        <TableCell>
-                                          {Row.major}
-                                        </TableCell>
-                                      </TableRow>
-                                    ))}
-                                  </TableBody>
-                                </Table>
-                              </Box>
-                            </Collapse>
-                          </TableCell>
-                        </TableRow>
+                                <TableCell>
+                                    <IconButton
+                                        id={i}
+                                        aria-label="expand row"
+                                        size="small"
+                                        //setCurrentIndex
+                                        onClick={() => clickHandler()}
+                                    >
+                                        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                                    </IconButton>
+                                </TableCell>
+                                <TableCell component="th" scope="item">
+                                    {item.createdAt.substring(0, 10)}
+                                </TableCell>
+                                <TableCell>
+                                    {item.teamName}
+                                </TableCell>
+                                <TableCell >{item.sport}</TableCell>
+                                <TableCell>
+                                    <Link to={"/makeTeam/modify/" + item._id}> <input type='button' value='수정' /></Link>
+                                    <input type='button' value="삭제" onClick={() => removePost(item._id)} />
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>{/* 이건 0->props>children>1 */}
+                            {/* {i == index&& open} */}
+                                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                                    <Collapse in={open} timeout="auto" unmountOnExit>
+                                        <Box sx={{ margin: 1 }}>
+                                            <Typography variant="h6" gutterBottom component="div">
+                                                팀원 정보
+                                            </Typography>
+                                            <Table size="small" aria-label="purchases">
+                                                <TableHead>
+                                                    <TableRow>
+                                                        <TableCell>이름</TableCell>
+                                                        <TableCell>전화번호</TableCell>
+                                                        <TableCell>성별</TableCell>
+                                                        <TableCell>학과</TableCell>
+                                                    </TableRow>
+                                                </TableHead>
+                                                <TableBody>
+                                                    {item.members.map((Row) => (
+                                                        <TableRow key={Row._id}>
+                                                            <TableCell component="th" scope="item">
+                                                                {Row.name}
+                                                            </TableCell>
+                                                            <TableCell>{Row.phoneNumber}</TableCell>
+                                                            <TableCell>{Row.sex}</TableCell>
+                                                            <TableCell>
+                                                                {Row.major}
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    ))}
+                                                </TableBody>
+                                            </Table>
+                                        </Box>
+                                    </Collapse>
+                                </TableCell>
+                            </TableRow>
                         </React.Fragment>
-                ));
-                setBoardList(boardList);
-            }else{
-                boardList = (
-                    <TableRow style={{textAlign : "center"}}>
-                    <TableCell colSpan="2">작성한 게시글이 존재하지 않습니다.</TableCell>
-                    </TableRow>
-                );
-                setBoardList(boardList);
-            }
-        })
-        .catch(err =>{
-            console.log(err);
-        })
-        
+                    ));
+                    setBoardList(boardList);
+                } else {
+                    boardList = (
+                        <TableRow style={{ textAlign: "center" }}>
+                            <TableCell colSpan="2">작성한 게시글이 존재하지 않습니다.</TableCell>
+                        </TableRow>
+                    );
+                    setBoardList(boardList);
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
+
     }
-    console.log("dlsetytm",boardList);
+    console.log("dlsetytm", boardList);
+
+
+    // boardlist = boards.map
 
     return (
         <>
@@ -162,7 +172,7 @@ const GetTeamList = () =>{
                 <Table aria-label="collapsible table">
                     <TableHead>
                         <TableRow style={{ textAlign: "center" }}>
-                        <TableCell/>
+                            <TableCell />
                             <TableCell>날짜</TableCell>
                             <TableCell>팀이름</TableCell>
                             <TableCell>종목</TableCell>

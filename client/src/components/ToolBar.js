@@ -76,7 +76,10 @@ const ToolBar = () => {
                                 }}
                             >
                                 <Link to="/mypage/getteamlist">
-                                <MenuItem>팀모집</MenuItem>
+                                <MenuItem to="/mypage/getteamlist" >모집한 팀</MenuItem>
+                                </Link>
+                                <Link to="/mypage/includeteampage">
+                                <MenuItem to="/mypage/includeteampage">참가한 팀</MenuItem>
                                 </Link>
                             </Menu>
                             <LogoutIcon onClick={logoutHandler} style={{ color: '#757575' }}>로그아웃</LogoutIcon>
