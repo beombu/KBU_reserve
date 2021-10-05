@@ -68,7 +68,6 @@ const RegisterPage = () => {
             console.error(err);
             toast.error(err.message);
         }
-
     }
 
     return (

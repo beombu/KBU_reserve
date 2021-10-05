@@ -17,11 +17,9 @@ import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
-
 const GetTeamList = () => {
 
     const [boardList, setBoardList] = useState([]);
-   //const [openIndex, setOpenIndex] = useState([false,false,false,false]);
     const [session,] = useState(localStorage.getItem("sessionId"));
     const [open, setOpen] = useState(false);
     const history = useHistory();
@@ -29,17 +27,13 @@ const GetTeamList = () => {
 
 
     useEffect(() => {
-        if(!boardList) return        
+        // if(!boardList) return        
         // if(firstRender){
         //     firstRender.current = false;
         //     return;
         // }
         getBoradList();
     }, [open]);
-
-    console.log("너의 값은 : ",open);
-
-
 
     const removePost = (_id) => {
         const send_param = {
@@ -60,8 +54,6 @@ const GetTeamList = () => {
 
     const clickHandler = () => {
         setOpen(!open);//이걸로 인해 open = true
-        // setOpenIndex[i](()=>open);
-        //setOpenIndex[i](()=>open);
     }
 
     const getBoradList = () => {
@@ -75,22 +67,14 @@ const GetTeamList = () => {
                 let boardList;
                 if (returnData.data.board.length > 0) {
                     const boards = returnData.data.board;
-                    boardList = boards.map((item, i) => (
+                    boardList = boards.map((item, i) =>                  
+                    (
 
                         <React.Fragment key={item._id} >
                             <TableRow
                                 sx={{ '& > *': { borderBottom: 'unset' } }}
                             >
                                 <TableCell>
-                                    <IconButton
-                                        id={i}
-                                        aria-label="expand row"
-                                        size="small"
-                                        //setCurrentIndex
-                                        onClick={() => clickHandler()}
-                                    >
-                                        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                                    </IconButton>
                                 </TableCell>
                                 <TableCell component="th" scope="item">
                                     {item.createdAt.substring(0, 10)}
@@ -104,7 +88,7 @@ const GetTeamList = () => {
                                     <input type='button' value="삭제" onClick={() => removePost(item._id)} />
                                 </TableCell>
                             </TableRow>
-                            <TableRow>{/* 이건 0->props>children>1 */}
+                            <TableRow key={i}>{/* 이건 0->props>children>1 */}
                             {/* {i == index&& open} */}
                                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                                     <Collapse in={open} timeout="auto" unmountOnExit>
@@ -157,7 +141,6 @@ const GetTeamList = () => {
             })
 
     }
-    console.log("dlsetytm", boardList);
 
 
     // boardlist = boards.map
@@ -172,7 +155,14 @@ const GetTeamList = () => {
                 <Table aria-label="collapsible table">
                     <TableHead>
                         <TableRow style={{ textAlign: "center" }}>
-                            <TableCell />
+                            <TableCell>
+                            <IconButton
+                                        size="small"
+                                        onClick={() => clickHandler()}
+                                    >   
+                                        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                            </IconButton>
+                            </TableCell>
                             <TableCell>날짜</TableCell>
                             <TableCell>팀이름</TableCell>
                             <TableCell>종목</TableCell>

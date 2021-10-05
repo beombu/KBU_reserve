@@ -39,7 +39,8 @@ userRouter.patch("/login", async(req, res) =>{
         if(!user)
         throw new Error("가입되지 않은 아이디 입니다.");
         const isValid = await compare(req.body.password,user.hashedPassword);
-        if(!isValid) throw new Error("입력하신 정보가 올바르지 않습니다.");
+        if(!isValid)
+        throw new Error("입력하신 정보가 올바르지 않습니다.");
         user.sessions.push({createdAt: new Date() });
         const session = user.sessions[user.sessions.length-1];
         await user.save();

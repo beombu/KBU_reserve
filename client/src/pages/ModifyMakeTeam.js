@@ -6,6 +6,10 @@ import { useHistory, useParams } from "react-router";
 import CustomSelect from "../components/CustomSelect";
 import Button from '@mui/material/Button';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DatePicker from '@mui/lab/DatePicker';
+import TextField from '@mui/material/TextField';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -33,13 +37,12 @@ const ModifyMakeTeam = () =>{
     const [numberPeople, setNumberPeople] = useState("");//모집인원수
     const sportsArray = ["스포츠선택","풋살", "농구", "탁구"];
     const [selectedSports, setSelectedSports] = useState("");
-    //암호, 원하는 시간 넣을것
-    // const [checkedInputs, setCheckedInputs] = useState([]);
+    const [wantPlayDate, setWantPlayDate] = useState(new Date());
     const [wantPlayTime,setWantPlayTime] = useState([]);
     const history = useHistory();
     var parseNumberPeople = 0;
-    const selectTime = [
-        '08:00 ~ 10:00',
+    var dateFilter = '';
+    const [selectTime,setSelectTime] = useState([
         '10:00 ~ 12:00',
         '12:00 ~ 14:00',
         '14:00 ~ 16:00',
@@ -47,11 +50,55 @@ const ModifyMakeTeam = () =>{
         '18:00 ~ 20:00',
         '20:00 ~ 22:00',
         '22:00 ~ 24:00',
-    ]
+    ]);
+    var sampleTime =[
+        '10:00 ~ 12:00',
+        '12:00 ~ 14:00',
+        '14:00 ~ 16:00',
+        '16:00 ~ 18:00',
+        '18:00 ~ 20:00',
+        '20:00 ~ 22:00',
+        '22:00 ~ 24:00'
+    ];
 
-    useEffect(() =>{
-        getMakeTeam();
-    },[]);
+
+    useEffect(()=>{
+        dateFilter = wantPlayDate.toISOString().substring(0,10);
+        const send_param={
+            "wantPlayDate" : dateFilter,
+            "selectedSports" : selectedSports,
+            _id:_id.data,
+        };
+        axios.post("checkedTime",send_param)
+        .then(res=>{
+            setTeamName(res.data.board.teamName);
+            setSelectedSports(res.data.board.sport);
+            setNumberPeople(res.data.board.maxNumberPeople);
+            setWantPlayTime(res.data.board.wantPlayTime);
+            setSay(res.data.board.say);
+            const difference = sampleTime.filter(x=>!res.data.reducer.includes(x));//이미 예약되어있는 시간 => 빈 예약시간
+            setSelectTime([...difference]);
+        })
+    },[wantPlayDate,selectedSports]);
+
+
+    // const getMakeTeam = ()=>{
+    //     const send_param ={
+    //         _id: _id.data
+    //     };
+    //     axios.post("/makeTeam/getMakeTeam",send_param)
+    //     .then(returnData=>{
+    //         setTeamName(returnData.data.board.teamName);
+    //         setSelectedSports(returnData.data.board.sport);
+    //         setNumberPeople(returnData.data.board.maxNumberPeople);
+    //         setWantPlayTime(returnData.data.board.wantPlayTime);
+    //         setWantPlayDate(returnData.data.board.wantPlayDate);
+    //         setSay(returnData.data.board.say);
+    //     })
+    //     .catch(err =>{
+    //         console.log(err);
+    //     })
+    // }
 
     const timeHandler = (e) => {
         const {
@@ -63,29 +110,11 @@ const ModifyMakeTeam = () =>{
         );
       };
 
-    const getMakeTeam = ()=>{
-        const send_param ={
-            _id: _id.data
-        };
-        axios.post("/makeTeam/getMakeTeam",send_param)
-        .then(returnData=>{
-            setTeamName(returnData.data.board.teamName);
-            setSelectedSports(returnData.data.board.sport);
-            setNumberPeople(returnData.data.board.maxNumberPeople);
-            setNumberPeople(returnData.data.board.wantPlayTime);
-            setSay(returnData.data.board.say);
-        })
-        .catch(err =>{
-            console.log(err);
-        })
-    }
-
-
     const submitHandler = async (e) =>{
         try{
             e.preventDefault();
             parseNumberPeople = parseInt(numberPeople);
-
+            dateFilter = wantPlayDate.toISOString().substring(0,10);//2021-10-02형식
             const send_param = {
                 "_id" : _id.data,
                 "teamName" : teamName,
@@ -93,17 +122,14 @@ const ModifyMakeTeam = () =>{
                 "maxNumberPeople" :parseNumberPeople,
                 "selectedSports" :selectedSports,
                 "wantPlayTime" : wantPlayTime,
+                "wantPlayDate" : dateFilter,
             }
-            if(selectedSports === "풋살" && parseNumberPeople > 8) throw new Error("풋살은 최대 8명까지만 이용가능!");
-            if(selectedSports === "농구" && parseNumberPeople > 10) throw new Error("농구은 최대 10명까지만 이용가능!");
-            if(selectedSports === "탁구" && parseNumberPeople > 4) throw new Error("탁구은 최대 4명까지만 이용가능!");
-            if(selectedSports ==="스포츠선택") throw new Error("스포츠를 선택하세요!");
             await axios.post("/makeTeam/update",send_param);
             toast.success("업데이트 완료!");
             history.push("/");
         } catch(err){
             console.error(err);
-            toast.error(err.message);
+             toast.error(err.response.data.message);
         }
     }
 
@@ -114,12 +140,21 @@ const ModifyMakeTeam = () =>{
             marginLeft:"auto",
             marginRight:"auto",
         }}>
-            <h3 style={{ textAlign: "center" }}>팀만들기 작성</h3>
+            <h3 style={{ textAlign: "center" }}>팀만들기 수정</h3>
             <form onSubmit={submitHandler}>
                 <CustomInput label = "팀이름" value={teamName} setValue={ setTeamName } />
                 <CustomSelect label = "스포츠  :  " value={selectedSports} selectArray = {sportsArray} setValue = {setSelectedSports}/>
                 <CustomInput label = "모집인원" value={numberPeople} type="number" setValue = { setNumberPeople }/>
-
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DatePicker
+                        label="Date"
+                        value={wantPlayDate}
+                        onChange={(e) => {
+                            setWantPlayDate(e);
+                        }}
+                        renderInput={(wantPlayDate) => <TextField {...wantPlayDate} />}
+                    />
+                </LocalizationProvider>
                 <div>
                     <FormControl sx={{ m: 1, width: 300 }}>
                         <InputLabel id="demo-multiple-checkbox-label">원하는 시간(중복선택가능)</InputLabel>

@@ -9,16 +9,14 @@ import styled from 'styled-components';
 // const imgUrl2 = require('../../public/');
 // const imgUrl3 = require('../../public/');
 
-const MainPage = ({ name, description }) => {
+const MainPage = () => {
     const history = useHistory();
     const checkSessionId = localStorage.sessionId;
-    const sessionIdUrl = "http://localhost:5000/index/" + checkSessionId;
 
     const onLinkClick = () => {
         toast.error("로그인해!");
         history.push('/');
     }
-
 
     const items = [
         {

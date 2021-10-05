@@ -76,22 +76,6 @@ const MakeTeamPage = () =>{
         })
     },[wantPlayDate,selectedSports]);
 
-    // const checkedTime = ()=>{
-    //     dateFilter = wantPlayDate.toISOString().substring(0,10);
-    //     const send_param={
-    //         "wantPlayDate" : dateFilter,
-    //         "selectedSports" : selectedSports
-    //     };
-    //     axios.post("makeTeam/checkedTime",send_param)
-    //     .then(res=>{
-    //         console.log("진짜인가?",res.data.reducer);
-    //         selectTime = selectTime.filter(x=>!res.data.reducer.includes(x));
-    //         // setWantPlayTime([...difference]);
-    //         console.log("남은 값은 : ",selectTime);
-
-    //     })
-    // }
-
     const timeHandler = (e) => {
         const {
           target: { value },
@@ -116,17 +100,12 @@ const MakeTeamPage = () =>{
                 "wantPlayTime" : wantPlayTime,
                 "wantPlayDate" : dateFilter,
             }
-            if(selectedSports === "풋살" && parseNumberPeople > 8) throw new Error("풋살은 최대 8명까지만 이용가능!");
-            if(selectedSports === "농구" && parseNumberPeople > 10) throw new Error("농구은 최대 10명까지만 이용가능!");
-            if(selectedSports === "탁구" && parseNumberPeople > 4) throw new Error("탁구은 최대 4명까지만 이용가능!");
-            if(selectedSports ==="스포츠선택") throw new Error("스포츠를 선택하세요!");
+
             await axios.post("/makeTeam",send_param);
             toast.success("예약에 성공하셨습니다.");
             history.push("/");
         } catch(err){
-            console.error(err);
-            toast.error(err.message);
-            console.log(err);
+            toast.error(err.response.data.message);
         }
     }
 
