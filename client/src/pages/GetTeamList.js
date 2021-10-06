@@ -77,7 +77,7 @@ const GetTeamList = () => {
                                 <TableCell>
                                 </TableCell>
                                 <TableCell component="th" scope="item">
-                                    {item.createdAt.substring(0, 10)}
+                                {item.wantPlayDate.substring(0,10)}<br/>{item.wantPlayTime.join(",\r\n")}
                                 </TableCell>
                                 <TableCell>
                                     {item.teamName}
@@ -163,7 +163,7 @@ const GetTeamList = () => {
                                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                             </IconButton>
                             </TableCell>
-                            <TableCell>날짜</TableCell>
+                            <TableCell>시간</TableCell>
                             <TableCell>팀이름</TableCell>
                             <TableCell>종목</TableCell>
                             <TableCell>편집</TableCell>

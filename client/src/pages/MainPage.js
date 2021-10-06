@@ -13,11 +13,29 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
 
 const MainPage = () => {
     const history = useHistory();
     const [boardList, setBoardList] = useState([]);
     const [session,] = useState(localStorage.getItem("sessionId"));
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
 
     const count = (_id) => {
@@ -55,11 +73,6 @@ const MainPage = () => {
         }
     }
 
-    const message = (message) => {
-        return alert(message)
-    }
-
-
 
     const getBoradList = () => {
         axios
@@ -74,7 +87,24 @@ const MainPage = () => {
                             <TableCell >{item.sport}</TableCell>
                             <TableCell>{item.wantPlayDate.substring(0, 10)}<br />{item.wantPlayTime.join(",\r\n")}</TableCell>
                             <TableCell>
-                                <Button variant="contained" color="success" size="small" onClick={() => message(item.say)}>메시지</Button>
+                                <div>
+                                    <Button onClick={handleOpen}>보기</Button>
+                                    <Modal
+                                        open={open}
+                                        onClose={handleClose}
+                                        aria-labelledby="modal-modal-title"
+                                        aria-describedby="modal-modal-description"
+                                    >
+                                        <Box sx={style}>
+                                            <Typography id="modal-modal-title" variant="h6" component="h2">
+                                                우리 같이 운동해요~~😘
+                                            </Typography>
+                                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                                {item.say}
+                                            </Typography>
+                                        </Box>
+                                    </Modal>
+                                </div>
                             </TableCell>
                             <TableCell>
                                 {item.countNumberPeople + " / " + item.maxNumberPeople}
@@ -103,7 +133,7 @@ const MainPage = () => {
     useEffect(() => {
 
         getBoradList();
-    }, []);
+    }, [open]);
 
 
     const onLinkClick = () => {
@@ -144,21 +174,6 @@ const MainPage = () => {
                 <IMG
                     src={imgURL}
                 />
-
-                {session ? (
-                    <>
-                        <Link to="/makeTeam">
-                            <span style={{ marginRight: 100 }} >팀만들기</span>
-                        </Link>
-                    </>
-                ) : (
-                    <>
-                        <Link to="/" onClick={onLinkClick}>
-                            <span style={{ marginRight: 100 }} >팀만들기</span>
-                        </Link>
-                    </>
-                )
-                }
             </Paper>
         );
     };
@@ -172,6 +187,23 @@ const MainPage = () => {
                     <Item key={i} {...item} />
                 ))}
             </Carousel>
+            {session ? (
+                    <>
+                        <Link to="/makeTeam">
+                            <span style={{ marginRight: 100 }} >팀만들기</span>
+                        </Link>
+                        <Link to="/introduce/Football">
+                            <span style={{ marginRight: 100 }} >임시버튼</span>
+                        </Link>
+                    </>
+                ) : (
+                    <>
+                        <Link to="/" onClick={onLinkClick}>
+                            <span style={{ marginRight: 100 }} >팀만들기</span>
+                        </Link>
+                    </>
+                )
+                }
             <>
                 <h2 style={{
                     marginTop: 40,

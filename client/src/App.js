@@ -10,6 +10,9 @@ import MakeTeamPage from "./pages/MakeTeamPage";
 import GetTeamList from "./pages/GetTeamList";
 import ModifyMakeTeam from "./pages/ModifyMakeTeam";
 import IncludeTeamPage from "./pages/IncludeTeamPage"
+import FootBallPage from "./pages/FootballPage"
+import BasketBallPage from "./pages/BasketBallPage"
+import PingPongPage from "./pages/PingPongPage"
 
 const App = () => {
   return (
@@ -24,6 +27,9 @@ const App = () => {
       <Route path= "/mypage/getteamlist" exact component = { GetTeamList } />
       <Route path= "/makeTeam/modify/:data" exact component ={ ModifyMakeTeam }/>
       <Route path= "/mypage/includeteampage" exact component ={ IncludeTeamPage }/>
+      <Route path= "/introduce/Football" exact component={FootBallPage}/>
+      <Route path= "/introduce/BasketBallPage" exact component={BasketBallPage}/>
+      <Route path= "/introduce/PingPongPage" exact component={PingPongPage}/>
     </Switch>
     </div>
   );

@@ -9,6 +9,21 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
 
 
 const IncludeTeamPage = () =>{
@@ -16,6 +31,10 @@ const IncludeTeamPage = () =>{
     const [boardList,setBoardList] = useState([]);
     const [session,] = useState(localStorage.getItem("sessionId"));
     // const firstRender = useRef(true);
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
 
 
     useEffect(() =>{
@@ -24,7 +43,7 @@ const IncludeTeamPage = () =>{
         //     return;
         // }
         getMyTeamList();
-    },[]);
+    },[open]);
             
     const exitTeam = (_id,writer) =>{
         const send_param ={
@@ -61,11 +80,6 @@ const IncludeTeamPage = () =>{
               });
         }
     }
-    
-    const message = (message) =>{
-        return alert(message)
-    }
-
 
     const getMyTeamList = () =>{
 
@@ -84,7 +98,24 @@ const IncludeTeamPage = () =>{
                         <TableCell >{item.sport}</TableCell>
                         <TableCell>{item.wantPlayDate.substring(0,10)}<br/>{item.wantPlayTime.join(",\r\n")}</TableCell>
                         <TableCell>
-                            <Button variant="contained" color="success" size="small" onClick={() => message(item.say)}>메시지</Button>
+                        <div>
+                                    <Button onClick={handleOpen}>보기</Button>
+                                    <Modal
+                                        open={open}
+                                        onClose={handleClose}
+                                        aria-labelledby="modal-modal-title"
+                                        aria-describedby="modal-modal-description"
+                                    >
+                                        <Box sx={style}>
+                                            <Typography id="modal-modal-title" variant="h6" component="h2">
+                                                우리 같이 운동해요~~😘
+                                            </Typography>
+                                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                                {item.say}
+                                            </Typography>
+                                        </Box>
+                                    </Modal>
+                                </div>
                         </TableCell>
                         <TableCell>
                             <Button variant="contained" color="success" size="small" onClick = {() => exitTeam(item._id,item.writer)}>나가기</Button>
@@ -106,7 +137,6 @@ const IncludeTeamPage = () =>{
         })
         
     }
-    console.log("dlsetytm",boardList);
 
     return (
         <>
