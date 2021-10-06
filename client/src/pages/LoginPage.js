@@ -78,6 +78,7 @@ const LoginPage =() =>{
             <CustomInput label ="비밀번호" value = {password} setValue={setPassword} type="password"/>
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
+              style = {{paddingRight: '1px'}}
               label="아이디 저장"
             />
             <Button

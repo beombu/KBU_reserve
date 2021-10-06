@@ -43,7 +43,7 @@ const GetTeamList = () => {
             axios.post("/makeTeam/delete", send_param)
                 .then(returnData => {
                     toast.success("글 삭제 성공!");
-                    history.push("/");//렌더링 문제 해결후 url 수정
+                    window.location.replace("/mypage/getteamlist")
                 })
                 .catch(err => {
                     console.error(err);

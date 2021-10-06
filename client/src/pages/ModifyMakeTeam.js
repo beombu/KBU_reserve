@@ -39,7 +39,6 @@ const ModifyMakeTeam = () =>{
     const [selectedSports, setSelectedSports] = useState("");
     const [wantPlayDate, setWantPlayDate] = useState(new Date());
     const [wantPlayTime,setWantPlayTime] = useState([]);
-    const history = useHistory();
     var parseNumberPeople = 0;
     var dateFilter = '';
     const [selectTime,setSelectTime] = useState([
@@ -74,7 +73,6 @@ const ModifyMakeTeam = () =>{
             setTeamName(res.data.board.teamName);
             setSelectedSports(res.data.board.sport);
             setNumberPeople(res.data.board.maxNumberPeople);
-            setWantPlayTime(res.data.board.wantPlayTime);
             setSay(res.data.board.say);
             const difference = sampleTime.filter(x=>!res.data.reducer.includes(x));//이미 예약되어있는 시간 => 빈 예약시간
             setSelectTime([...difference]);
@@ -126,7 +124,7 @@ const ModifyMakeTeam = () =>{
             }
             await axios.post("/makeTeam/update",send_param);
             toast.success("업데이트 완료!");
-            history.push("/");
+            window.location.replace("/mypage/getteamlist");
         } catch(err){
             console.error(err);
              toast.error(err.response.data.message);

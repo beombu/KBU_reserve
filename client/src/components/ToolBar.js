@@ -21,6 +21,7 @@ const ToolBar = () => {
     const history = useHistory();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
+    
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -76,10 +77,10 @@ const ToolBar = () => {
                                 }}
                             >
                                 <Link to="/mypage/getteamlist">
-                                <MenuItem to="/mypage/getteamlist" >모집한 팀</MenuItem>
+                                <MenuItem to="/mypage/getteamlist" >내가 만든 팀</MenuItem>
                                 </Link>
                                 <Link to="/mypage/includeteampage">
-                                <MenuItem to="/mypage/includeteampage">참가한 팀</MenuItem>
+                                <MenuItem to="/mypage/includeteampage">내가 참가한 팀</MenuItem>
                                 </Link>
                             </Menu>
                             <LogoutIcon onClick={logoutHandler} style={{ color: '#757575' }}>로그아웃</LogoutIcon>

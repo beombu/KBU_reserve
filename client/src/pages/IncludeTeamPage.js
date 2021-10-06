@@ -1,8 +1,6 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useHistory } from "react-router";
-import { Link } from "react-router-dom";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -17,7 +15,6 @@ const IncludeTeamPage = () =>{
     
     const [boardList,setBoardList] = useState([]);
     const [session,] = useState(localStorage.getItem("sessionId"));
-    const history = useHistory();
     // const firstRender = useRef(true);
 
 
@@ -29,17 +26,18 @@ const IncludeTeamPage = () =>{
         getMyTeamList();
     },[]);
             
-    const exitTeam = (_id) =>{
+    const exitTeam = (_id,writer) =>{
         const send_param ={
             sessionId : session,//client's sessionid
-            _id : _id//teamdb _id
+            _id : _id,//teamdb _id
+            writer : writer,
 
         };
         if(window.confirm("정말 나가시겠습니까?")){
              axios.post("/makeTeam/exitTeam",send_param)
-            .then(returnMessage =>{
-                toast.success(returnMessage.message);
-                history.push("/");
+            .then(() =>{
+                toast.success("팀에서 나가셨습니다!");
+                window.location.replace("/mypage/includeteampage")
             })
             .catch((error)=>{
                 if (error.response) {
@@ -89,7 +87,7 @@ const IncludeTeamPage = () =>{
                             <Button variant="contained" color="success" size="small" onClick={() => message(item.say)}>메시지</Button>
                         </TableCell>
                         <TableCell>
-                            <Button variant="contained" color="success" size="small" onClick = {() => exitTeam(item._id)}>나가기</Button>
+                            <Button variant="contained" color="success" size="small" onClick = {() => exitTeam(item._id,item.writer)}>나가기</Button>
                         </TableCell>
                     </TableRow>
                 ));

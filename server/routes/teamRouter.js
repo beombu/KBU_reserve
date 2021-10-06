@@ -83,13 +83,17 @@ teamRouter.post("/exitTeam",async(req,res) =>{
     try{
         const sessionId = req.body.sessionId;//localStorage의 sessionId값
         const user = await User.findOne({ "sessions._id": [sessionId] });
-        const _id = user._id;
-        if(_id === req.body._id)
+        const _id = user._id.toString();
+        if(_id === req.body.writer)
         throw new Error("조장님 나가시면 안되요!!!");
+
         await Teams.findByIdAndUpdate(req.body._id,
-            {$pull:{'members':{$elemMatch:{"_id":_id}}}}
-            );
-        res.json({message: true});
+            {
+                $pull: { 'members': { "_id": _id } }
+                ,
+                $inc: { countNumberPeople: -1 }
+            }).exec();
+        res.json({message: "exit team success"});
     } catch (err) {
         console.error(err);
         res.status(400).json({message:err.message});
@@ -147,6 +151,9 @@ teamRouter.post("/participate/count", async (req, res) => {
     try {
         const teamId = req.body._id;// Teams DB의 _id
         const sessionid = req.body.sessionId
+        if(!sessionid)
+        throw new Error("로그인 먼저해!!");
+
 
         const team = await Teams.findOne({ "_id": teamId });// 참가버튼 누른 테이블의 아이디
         const user = await User.findOne({ "sessions._id": [sessionid] });// 지금 로그인한 유저의 세션
@@ -179,7 +186,9 @@ teamRouter.post("/participate/count", async (req, res) => {
             }else{
                 throw new Error("이미 참가했습니다.");
             }
-        }else{}       
+        }else{
+            throw new Error("한발 늦었습니다...");
+        }       
     }catch (err) {
         console.error(err);
         res.status(400).json({message:err.message});
