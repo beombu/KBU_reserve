@@ -1,58 +1,59 @@
 import React from "react";
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
+import skyview from '../img/Football/카카오스카이뷰.jpg'
+import imgUrl1 from '../img/Football/Football1.jpg'
+import Carousel from 'react-material-ui-carousel';
+import { Card } from '@material-ui/core';
+import styled from 'styled-components';
 
 const FootBallPage = () => {
+
+  const items = [
+    {
+      img: imgUrl1,
+    },
+    {
+      img: ''
+    },
+    {
+      img: ''
+    },
+  ];
+
+  const IMG = styled.img`
+    width: 300px;
+    height: 300px;
+    border-radius: 5%;     
+    width: 100%;
+    height: 50;
+    `;
+
+
+  const Item = ({ img }) => {
+    return (
+      <Card style={{overflow: "hidden", display: "flex", borderRadius: "5%"}}>
+        <IMG
+          src={img}
+        />
+      </Card>
+    );
+  };
   return (
     <>
-    <h1>풋살장 소개</h1>
-    <ImageList sx={{ width: 600 }} cols={1} rowHeight={700}>
-      {itemData.map((item) => (
-        <ImageListItem key={item.img}>
-          <p>{item.name}</p><br/>
-          <img
-            src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-            srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-            alt={item.title}
-            loading="lazy"
-          />
-        </ImageListItem>
-      ))}
-    </ImageList>
+      <h2 style={{marginTop: '40px'}}>시설 안내</h2>
+      <div>
+        <img src={skyview} width='600' height='400'>
+        </img>
+      </div>
+
+      <div style={{ textAlign: "center" }}>
+      <h3 style={{marginTop: '60px'}}>시설 이미지</h3>
+        <Carousel>
+          {items.map((item, i) => (
+            <Item key={i} {...item} />
+          ))}
+        </Carousel>
+      </div>
     </>
   );
 }
 export default FootBallPage;
-
-const itemData = [
-  {
-    img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-    title: 'Breakfast',
-    name : "지도",
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
-    title: 'Burger',
-    name : "지도1",
-
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
-    title: 'Camera',
-    name : "지도2",
-
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
-    title: 'Coffee',
-    name : "지도3",
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
-    title: 'Hats',
-    name : "지도4",
-  },
-];
-
-
-

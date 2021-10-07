@@ -16,6 +16,7 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import Button from '@mui/material/Button';
 
 const GetTeamList = () => {
 
@@ -82,10 +83,10 @@ const GetTeamList = () => {
                                 <TableCell>
                                     {item.teamName}
                                 </TableCell>
-                                <TableCell >{item.sport}</TableCell>
-                                <TableCell>
-                                    <Link to={"/makeTeam/modify/" + item._id}> <input type='button' value='수정' /></Link>
-                                    <input type='button' value="삭제" onClick={() => removePost(item._id)} />
+                                <TableCell style={{ width:30 }}>{item.sport}</TableCell>
+                                <TableCell style={{ width:70 }}>
+                                    <Link to={"/makeTeam/modify/" + item._id}><Button style={{ marginLeft:5 }}  variant="contained" color="success" size="small">수정</Button></Link>
+                                    <Button variant="contained" style={{marginLeft:5, marginTop:10}} color="success" size="small" onClick = {() =>  removePost(item._id)}>삭제</Button>
                                 </TableCell>
                             </TableRow>
                             <TableRow key={i}>{/* 이건 0->props>children>1 */}
@@ -148,10 +149,10 @@ const GetTeamList = () => {
     return (
         <>
             <h1 style={{
-                marginTop: 80,
+                marginTop: 50,
                 textAlign: "center"
             }}>나의 팀모집 목록</h1>
-            <TableContainer component={Paper}>
+            <TableContainer component={Paper} style={{marginTop:50}}>
                 <Table aria-label="collapsible table">
                     <TableHead>
                         <TableRow style={{ textAlign: "center" }}>
@@ -163,10 +164,10 @@ const GetTeamList = () => {
                                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                             </IconButton>
                             </TableCell>
-                            <TableCell>시간</TableCell>
+                            <TableCell style={{ textAlign:"center"}}>시간</TableCell>
                             <TableCell>팀이름</TableCell>
                             <TableCell>종목</TableCell>
-                            <TableCell>편집</TableCell>
+                            <TableCell style={{ textAlign:"center"}}>편집</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

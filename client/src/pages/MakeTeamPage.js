@@ -111,17 +111,17 @@ const MakeTeamPage = () =>{
 
     return (
         <div style={{
-            marginTop:100,
-            maxWidth:400,
+            marginTop:70,
+            maxWidth:450,
             marginLeft:"auto",
             marginRight:"auto",
         }}>
-            <h3>팀만들기 작성</h3>
+            <h2 style={{ textAlign: "center" }}>팀만들기 작성</h2>
             <form onSubmit={submitHandler}>
                 <CustomInput label = "팀이름" value={teamName} setValue={ setTeamName }/>
                 <CustomSelect label = "스포츠  :  " value={selectedSports} selectArray = {sportsArray} setValue = {setSelectedSports}/>
-                <CustomInput label = "모집인원" value={numberPeople} type="number" setValue = { setNumberPeople }/>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <CustomInput label = "모집인원" value={numberPeople} type="number" setValue = { setNumberPeople } />
+                <LocalizationProvider dateAdapter={AdapterDateFns} >
                     <DatePicker
                         label="Date"
                         value={wantPlayDate}
@@ -132,7 +132,7 @@ const MakeTeamPage = () =>{
                     />
                 </LocalizationProvider>
                 <div>
-                    <FormControl sx={{ m: 1, width: 300 }}>
+                    <FormControl sx={{ width: 450, marginTop:3 }}>
                         <InputLabel id="demo-multiple-checkbox-label">원하는 시간(중복선택가능)</InputLabel>
                         <Select
                             labelId="demo-multiple-checkbox-label"
@@ -160,7 +160,7 @@ const MakeTeamPage = () =>{
                     maxRows={10}
                     aria-label="maximum height"
                     placeholder="모집할 문장을 적으세요."
-                    style={{ width: "100%",height: 150, marginTop:10}}
+                    style={{ width: "100%",height: 150, marginTop:30}}
 
                 />
                 

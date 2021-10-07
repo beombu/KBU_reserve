@@ -1,5 +1,4 @@
 import React, {useState, useEffect}  from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router";
@@ -13,29 +12,18 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
+import imgUrl1 from '../img/Carousel/virus.jpg';
+import imgUrl2 from '../img/Carousel/팀만들기.jpg';
+import imgUrl3 from '../img/Carousel/총장배.jpg';
+import imgUrl4 from '../img/Carousel/시설안내.jpg';
+import Tooltip from '@mui/material/Tooltip';
 
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-  };
+
 
 const MainPage = () => {
     const history = useHistory();
     const [boardList, setBoardList] = useState([]);
     const [session,] = useState(localStorage.getItem("sessionId"));
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
 
 
     const count = (_id) => {
@@ -84,33 +72,18 @@ const MainPage = () => {
                     boardList = boards.map((item) => (
                         <TableRow key={item._id} style={{ textAlign: "center" }}>
                             <TableCell>{item.teamName}</TableCell>
-                            <TableCell >{item.sport}</TableCell>
-                            <TableCell>{item.wantPlayDate.substring(0, 10)}<br />{item.wantPlayTime.join(",\r\n")}</TableCell>
+                            <TableCell style={{ width:30 }}>{item.sport}</TableCell>
+                            <TableCell style={{ width:100 }}>{item.wantPlayDate.substring(0, 10)}<br />{item.wantPlayTime.join("\r\n")}</TableCell>
                             <TableCell>
-                                <div>
-                                    <Button onClick={handleOpen}>보기</Button>
-                                    <Modal
-                                        open={open}
-                                        onClose={handleClose}
-                                        aria-labelledby="modal-modal-title"
-                                        aria-describedby="modal-modal-description"
-                                    >
-                                        <Box sx={style}>
-                                            <Typography id="modal-modal-title" variant="h6" component="h2">
-                                                우리 같이 운동해요~~😘
-                                            </Typography>
-                                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                                {item.say}
-                                            </Typography>
-                                        </Box>
-                                    </Modal>
-                                </div>
+                                <Tooltip title={<h1>{item.say}</h1>}>
+                                    <Button>보기</Button>
+                                </Tooltip>
                             </TableCell>
-                            <TableCell>
+                            <TableCell style={{ textAlign: "center" }}>
                                 {item.countNumberPeople + " / " + item.maxNumberPeople}
                             </TableCell>
-                            <TableCell>
-                                <Button variant="contained" color="success" size="small" onClick={() => count(item._id)}>참가하기</Button>
+                            <TableCell style={{ width:70 }}>
+                                <Button style={{ marginLeft:5 }} variant="contained" color="success" size="small" onClick={() => count(item._id)}>참가하기</Button>
                             </TableCell>
                         </TableRow>
                     ));
@@ -127,13 +100,10 @@ const MainPage = () => {
             .catch(err => {
                 console.log(err);
             })
-
     }
-
     useEffect(() => {
-
         getBoradList();
-    }, [open]);
+    }, []);
 
 
     const onLinkClick = () => {
@@ -141,69 +111,93 @@ const MainPage = () => {
         history.push('/');
     }
 
-    const items = [
+    const items1 = [
         {
-            name: '코로나로 지처있던 학우들의 화합을 위하여 만들었습니다!',
-            description: 'from 범철, 상준',
-            imgURL: ''
+            img: imgUrl1,
+            targetUrl:"/"
         },
         {
-            name: '제 1회 총장배 농구대회',
-            description: '상금 30만원',
-            imgURL: ''
+            img: imgUrl2,
+            targetUrl: "/makeTeam"
         },
         {
-            name: '제 1회 총장배 탁구대회',
-            description: '상금 30만원',
-            imgURL: ''
+            img: imgUrl3,
+            targetUrl: "/"
         },
+        {
+            img: imgUrl4,
+            targetUrl: "/introduce/Football"
+        }
+    ];
+    const items2 = [
+        {
+            img: imgUrl1,
+        },
+        {
+            img: imgUrl2,
+            targetUrl: "/"
+        },
+        {
+            img: '',
+            targetUrl: "/introduce/BasketBall"
+        },
+        {
+            img: '',
+            targetUrl: "/introduce/PingPong" 
+        }
     ];
 
     const IMG = styled.img`
         width: 300px;
-        height: 400px;
-        padding: 100;     
+        height: 400px;  
         width: 100%;
+        border-radius: 5%;
     `;
 
-    const Item = ({ name, description, imgURL }) => {
+    const Item1 = ({ img, targetUrl}) => {
         return (
-            <Paper>
-                <h2>{name}</h2>
-                <p>{description}</p>
-                <IMG
-                    src={imgURL}
+            <Paper style ={{marginTop: "40px", overflow: "hidden", display: "flex", borderRadius: "5%"}}>
+                <IMG 
+                src ={ img }
+                onClick={() => window.location.replace(targetUrl)}>
+                </IMG>
+            </Paper>
+        );
+    };
+    const Item2 = ({img}) => {
+        return (
+            <Paper style ={{marginTop: "40px", overflow: "hidden", display: "flex", borderRadius: "5%"}}>
+                <IMG 
+                    src ={ img }
+                    onClick={() => onLinkClick()}
                 />
             </Paper>
         );
     };
-
     return (
 
-        <div style={{ textAlign: "center" }}>
+        <div>
 
-            <Carousel>
-                {items.map((item, i) => (
-                    <Item key={i} {...item} />
-                ))}
-            </Carousel>
             {session ? (
+                <>
+                    <Carousel>
+                        {items1.map((item, i) => (
+                            <Item1 key={i} {...item} />
+                        ))}
+                    </Carousel>
+                </>
+                
+            ) : (
                     <>
-                        <Link to="/makeTeam">
-                            <span style={{ marginRight: 100 }} >팀만들기</span>
-                        </Link>
-                        <Link to="/introduce/Football">
-                            <span style={{ marginRight: 100 }} >임시버튼</span>
-                        </Link>
+                        <Carousel>
+                            {items2.map((item, i) => (
+                                <Item2 key={i} {...item} />
+                            ))}
+                        </Carousel>
                     </>
-                ) : (
-                    <>
-                        <Link to="/" onClick={onLinkClick}>
-                            <span style={{ marginRight: 100 }} >팀만들기</span>
-                        </Link>
-                    </>
-                )
-                }
+                
+            )
+            }
             <>
                 <h2 style={{
                     marginTop: 40,
@@ -213,11 +207,11 @@ const MainPage = () => {
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow style={{ textAlign: "center" }}>
-                                <TableCell>팀명</TableCell>
-                                <TableCell>종목</TableCell>
-                                <TableCell>시간</TableCell>
-                                <TableCell>메시지</TableCell>
-                                <TableCell>현재원 / 모집인원</TableCell>
+                                <TableCell style={{ textAlign: "center" }}>팀명</TableCell>
+                                <TableCell style={{ textAlign: "center" }}>종목</TableCell>
+                                <TableCell style={{ textAlign: "center" }}>시간</TableCell>
+                                <TableCell style={{ textAlign: "center" }}>메시지</TableCell>
+                                <TableCell style={{ textAlign: "center" }}>현재인원 / 모집인원</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>

@@ -89,7 +89,7 @@ teamRouter.post("/exitTeam",async(req,res) =>{
 
         await Teams.findByIdAndUpdate(req.body._id,
             {
-                $pull: { 'members': { "_id": _id } }
+                $pull: { 'members': { "_id": user._id } }
                 ,
                 $inc: { countNumberPeople: -1 }
             }).exec();

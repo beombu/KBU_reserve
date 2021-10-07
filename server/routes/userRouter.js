@@ -12,6 +12,19 @@ userRouter.post("/register", async(req,res)=>{
         throw new Error("비밀번호를 6자 이상으로 해주세요.");
         if(req.body.username.length<3)
         throw new Error("username은 3자 이상으로 해주세요.");
+        if(req.body.password !== req.body.passwordCheck)
+        throw new Error("비밀번호가 달라요!");
+        if(await User.findOne({username : req.body.username}))
+        throw new Error("ID가 존재합니다. 다른 아이디를 설정해주세요!");
+        if(await User.findOne({email : req.body.email}))
+        throw new Error("이미 있는 이메일입니다.");
+        if(await User.findOne({phoneNumber : req.body.phoneNumber})||req.body.phoneNumber.length !== 11)
+        throw new Error("전화번호를 확인해주세요!");
+        if(await User.findOne({kbuCode : req.body.kbuCode})||req.body.kbuCode.length !== 9)
+        throw new Error("학번을 확인해주세요!");
+        if (req.body.selectedSex === "") throw new Error("성별을 선택하세요!");
+        if (req.body.selectedMajor === "") throw new Error("학과를 선택하세요!");
+
         const hashedPassword = await hash(req.body.password,10);
         const user = await new User({
             name: req.body.name,
