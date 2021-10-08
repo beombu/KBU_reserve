@@ -165,6 +165,7 @@ const MakeTeamPage = () =>{
                 />
                 
                 <Button
+                color="success"
               type="submit"
               fullWidth
               variant="contained"

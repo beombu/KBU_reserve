@@ -90,6 +90,7 @@ const RegisterPage = () => {
                         <CustomSelect label="학과" value={selectedMajor} selectArray={majorArray} setValue={setSelectedMajor} />
                         <CustomInput label="학번" value={kbuCode} setValue={setkbuCode} />
                         <Button
+                            color="success"
                             type="submit"
                             fullWidth
                             variant="contained"

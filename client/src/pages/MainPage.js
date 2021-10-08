@@ -12,11 +12,14 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
-import imgUrl1 from '../img/Carousel/virus.jpg';
-import imgUrl2 from '../img/Carousel/팀만들기.jpg';
-import imgUrl3 from '../img/Carousel/총장배.jpg';
-import imgUrl4 from '../img/Carousel/시설안내.jpg';
+import ButtonImg1 from '../img/Carousel/MakeTeam.png';
+import ButtonImg2 from '../img/Carousel/Facilities.png';
+import imgUrl1 from '../img/Carousel/kbu.png';
+import imgUrl2 from '../img/Carousel/contest.png';
+import imgUrl3 from '../img/Carousel/football.png';
+import imgUrl4 from '../img/Carousel/basketball.png';
 import Tooltip from '@mui/material/Tooltip';
+import { green } from "@mui/material/colors";
 
 
 
@@ -71,18 +74,18 @@ const MainPage = () => {
                     const boards = returnData.data.boardAll;
                     boardList = boards.map((item) => (
                         <TableRow key={item._id} style={{ textAlign: "center" }}>
-                            <TableCell>{item.teamName}</TableCell>
-                            <TableCell style={{ width:30 }}>{item.sport}</TableCell>
-                            <TableCell style={{ width:100 }}>{item.wantPlayDate.substring(0, 10)}<br />{item.wantPlayTime.join("\r\n")}</TableCell>
-                            <TableCell>
+                            <TableCell style={{ width:70, textAlign: "center" }}>{item.teamName}</TableCell>
+                            <TableCell style={{ width:50, textAlign: "center" }}>{item.sport}</TableCell>
+                            <TableCell style={{ width:200, textAlign: "center" }}>{item.wantPlayDate.substring(0, 10)}<br />{item.wantPlayTime.join("\r\n")}</TableCell>
+                            <TableCell style={{ width:50 ,textAlign: "center" }}>
                                 <Tooltip title={<h1>{item.say}</h1>}>
                                     <Button>보기</Button>
                                 </Tooltip>
                             </TableCell>
-                            <TableCell style={{ textAlign: "center" }}>
+                            <TableCell style={{ width:180, textAlign: "center" }}>
                                 {item.countNumberPeople + " / " + item.maxNumberPeople}
                             </TableCell>
-                            <TableCell style={{ width:70 }}>
+                            <TableCell style={{ width:70 , textAlign: "center"}}>
                                 <Button style={{ marginLeft:5 }} variant="contained" color="success" size="small" onClick={() => count(item._id)}>참가하기</Button>
                             </TableCell>
                         </TableRow>
@@ -113,67 +116,90 @@ const MainPage = () => {
 
     const items1 = [
         {
-            img: imgUrl1,
-            targetUrl:"/"
+            name: "팀 만들기(click me!)",
+            description: "Let's make a team",
+            img: ButtonImg1,
+            targetUrl:"/makeTeam"
         },
         {
-            img: imgUrl2,
-            targetUrl: "/makeTeam"
-        },
-        {
-            img: imgUrl3,
-            targetUrl: "/"
-        },
-        {
-            img: imgUrl4,
+            name: "시설 안내(click me!)",
+            description: "About facilities",
+            img: ButtonImg2,
             targetUrl: "/introduce/Football"
         }
     ];
     const items2 = [
         {
+            img: ButtonImg1,      
+        },
+        {
+            img: ButtonImg2,
+        }
+    ];
+
+    const items3 = [
+        {
             img: imgUrl1,
         },
         {
             img: imgUrl2,
-            targetUrl: "/"
         },
         {
-            img: '',
-            targetUrl: "/introduce/BasketBall"
+            img: imgUrl3,
+            
         },
         {
-            img: '',
-            targetUrl: "/introduce/PingPong" 
+            img: imgUrl4,   
         }
     ];
 
-    const IMG = styled.img`
-        width: 300px;
-        height: 400px;  
-        width: 100%;
-        border-radius: 5%;
+    const IMG1 = styled.img`
+        width: 600px;
+        height: 150px;  
     `;
 
-    const Item1 = ({ img, targetUrl}) => {
+    const IMG2 = styled.img`
+        width: 600px;
+        height: 300px;  
+    `;
+
+    const Item1 = ({name, description, img, targetUrl}) => {
         return (
-            <Paper style ={{marginTop: "40px", overflow: "hidden", display: "flex", borderRadius: "5%"}}>
-                <IMG 
-                src ={ img }
-                onClick={() => window.location.replace(targetUrl)}>
-                </IMG>
+            <Paper style={{marginTop: '40px'}}>
+                {/* <h2 style={{color: "green", marginTop: "70px"}} onClick={() => window.location.replace(targetUrl)} >{name}</h2>
+                <p style={{color: "green", lineHeight: '0', marginBottom: "50px"}}>{description}</p> */}
+                <IMG1  style={{ display: "flex"}}
+                    src={img}
+                    onClick={() => window.location.replace(targetUrl)}
+                />         
             </Paper>
         );
     };
-    const Item2 = ({img}) => {
+    const Item2 = ({name, description, img}) => {
         return (
-            <Paper style ={{marginTop: "40px", overflow: "hidden", display: "flex", borderRadius: "5%"}}>
-                <IMG 
-                    src ={ img }
-                    onClick={() => onLinkClick()}
+            <Paper style={{marginTop: '40px'}}> 
+                {/* <h2 style={{color: "green", marginTop: "70px"}} onClick={() => onLinkClick()} >{name}</h2>
+                <p style={{color: "green", lineHeight: '0', marginBottom: "50px"}}>{description}</p> */}
+
+                <IMG1  style={{ display: "flex"}}
+                    src={img}
+                    onClick={() => onLinkClick()} 
                 />
             </Paper>
         );
     };
+
+    const Item3 = ({img}) => {
+        return (
+            <Paper style={{marginTop: '30px'}}>
+                <IMG2 style={{ display: "flex"}}
+                    src ={ img }
+                />
+            </Paper>
+        );
+    };
+
+    
     return (
 
         <div>
@@ -185,6 +211,12 @@ const MainPage = () => {
                             <Item1 key={i} {...item} />
                         ))}
                     </Carousel>
+
+                    <Carousel>
+                        {items3.map((item, i) => (
+                            <Item3 key={i} {...item} />
+                        ))}
+                    </Carousel>
                 </>
                 
             ) : (
@@ -193,6 +225,12 @@ const MainPage = () => {
                             {items2.map((item, i) => (
                                 <Item2 key={i} {...item} />
                             ))}
+                        </Carousel>
+
+                        <Carousel>
+                            {items3.map((item, i) => (
+                                <Item3 key={i} {...item} />
+                        ))}
                         </Carousel>
                     </>
                 
@@ -204,7 +242,7 @@ const MainPage = () => {
                     textAlign: "center"
                 }}>현재 팀 목록</h2>
                 <TableContainer component={Paper}>
-                    <Table aria-label="simple table">
+                    <Table aria-label="simple table" style={{minWidth:650}}>
                         <TableHead>
                             <TableRow style={{ textAlign: "center" }}>
                                 <TableCell style={{ textAlign: "center" }}>팀명</TableCell>

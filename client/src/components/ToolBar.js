@@ -29,7 +29,6 @@ const ToolBar = () => {
     const handleClose = () => {
         setAnchorEl(null);
     };
-
     const logoutHandler = async () => {
         try {
             await axios.patch("/users/logout");
@@ -41,30 +40,26 @@ const ToolBar = () => {
 
         } catch (err) {
             console.error(err);
-            toast.error(err.message);
+            
         }
-
     }
-
-
 
 
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar style={{ background: 'green' }} position="static">
                 <Toolbar>
-                    <Link to="/">
+                    <Link to="/" style={{textDecoration: 'none'}}>
                         <HomeIcon style={{ color: 'white' }} fontSize="large" sx={{ mr: 2 }} />
                     </Link>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} style={{ color: 'white' }}>
+                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} style={{ color: 'white', fontFamily:"NanumSquare"  }}>
                         KBU Sports
                     </Typography>
-
 
                     {me ? (
                         <>        
                             <AccountBoxIcon onMouseOver={handleClick} style={{ color: 'white', padding: '10px' }}>마이페이지</AccountBoxIcon>
-                            
+
                             <Menu
                                 id="basic-menu"
                                 anchorEl={anchorEl}
@@ -74,32 +69,33 @@ const ToolBar = () => {
                                     'aria-labelledby': 'basic-button',
                                 }}
                             >
-                                <div>
-                                <a href="http://localhost:3000/mypage/getteamlist">
-                                    <MenuItem style ={{width:"100%", height:40}}>만든 팀</MenuItem>
-                                </a>
-                                <a href="http://localhost:3000/mypage/includeteampage">
-                                    <MenuItem style ={{width:"100%", height:40}}>참가한 팀</MenuItem>
-                                </a>
-                                </div>
+                                <Link to="/mypage/getteamlist" style={{ textDecoration: 'none' }}>
+                                <MenuItem style={{width:"100%", height:40, fontFamily:"NanumSquare" }} >만든 팀</MenuItem>
+                                </Link>
+                                <Link to="/mypage/includeteampage" style={{ textDecoration: 'none' }}>
+                                <MenuItem style={{width:"100%", height:40, fontFamily:"NanumSquare" }}>참가한 팀</MenuItem>
+                                </Link>
                             </Menu>
-                            
+
                             <LogoutIcon onClick={logoutHandler} style={{ color: 'white', padding: '10px' }}>로그아웃</LogoutIcon>
                         </>
                     ) : (
                         <>
-                            <a href="http://localhost:3000/auth/login" style={{ textDecoration: 'none' }}>
-                                <Button style={{ color: 'white' }}>로그인</Button>
-                            </a>
-                            <a href="http://localhost:3000/auth/register" style={{ textDecoration: 'none' }}>
-                                <Button style={{ color: 'white' }}>회원가입</Button>
-                            </a>
+                            <Link to="/auth/login" style={{ textDecoration: 'none' }}>
+                                <Button style={{ color: 'white', fontFamily:"NanumSquare" }}>로그인</Button>
+                            </Link>
+                            <Link to="/auth/register" style={{ textDecoration: 'none' }}>
+                                <Button style={{ color: 'white', fontFamily:"NanumSquare" }}>회원가입</Button>
+                            </Link>
                         </>
                     )}
                 </Toolbar>
-            </AppBar>
+                </AppBar>
         </Box>
     )
 }
+	 
+
+
 
 export default ToolBar;

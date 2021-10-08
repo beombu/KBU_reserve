@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 teamRouter.post("/",async(req,res)=>{
     try{
         if(req.body.teamName==="") throw new Error("팀이름을 적으세요!!");
+        if(req.body.teamName.length >= 10) throw new Error("팀이름의 길이가 길어요ㅠㅠ..");
         if(req.body.selectedSports ==="스포츠선택") throw new Error("스포츠를 선택하세요!");
         if(req.body.maxNumberPeople < 2) throw new Error("혼자할거야....???? 안돼!!!!!");
         if(req.body.wantPlayTime.length===0) throw new Error("시간을 골라주세요!");

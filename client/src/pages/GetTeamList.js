@@ -77,15 +77,15 @@ const GetTeamList = () => {
                             >
                                 <TableCell>
                                 </TableCell>
-                                <TableCell component="th" scope="item">
+                                <TableCell style={{ width:200, textAlign: "center" }} component="th" scope="item">
                                 {item.wantPlayDate.substring(0,10)}<br/>{item.wantPlayTime.join(",\r\n")}
                                 </TableCell>
-                                <TableCell>
+                                <TableCell style={{textAlign: "center" }}>
                                     {item.teamName}
                                 </TableCell>
-                                <TableCell style={{ width:30 }}>{item.sport}</TableCell>
-                                <TableCell style={{ width:70 }}>
-                                    <Link to={"/makeTeam/modify/" + item._id}><Button style={{ marginLeft:5 }}  variant="contained" color="success" size="small">수정</Button></Link>
+                                <TableCell style={{ width:50, textAlign: "center" }}>{item.sport}</TableCell>
+                                <TableCell style={{ width:70 ,textAlign: "center" }}>
+                                    <Link to={"/makeTeam/modify/" + item._id} style={{textDecoration: 'none'}}><Button style={{ marginLeft:5 }}  variant="contained" color="success" size="small">수정</Button></Link>
                                     <Button variant="contained" style={{marginLeft:5, marginTop:10}} color="success" size="small" onClick = {() =>  removePost(item._id)}>삭제</Button>
                                 </TableCell>
                             </TableRow>
@@ -153,7 +153,7 @@ const GetTeamList = () => {
                 textAlign: "center"
             }}>나의 팀모집 목록</h1>
             <TableContainer component={Paper} style={{marginTop:50}}>
-                <Table aria-label="collapsible table">
+                <Table aria-label="collapsible table" style={{minWidth:470}}>
                     <TableHead>
                         <TableRow style={{ textAlign: "center" }}>
                             <TableCell>
@@ -165,8 +165,8 @@ const GetTeamList = () => {
                             </IconButton>
                             </TableCell>
                             <TableCell style={{ textAlign:"center"}}>시간</TableCell>
-                            <TableCell>팀이름</TableCell>
-                            <TableCell>종목</TableCell>
+                            <TableCell style={{ textAlign: "center" }}>팀이름</TableCell>
+                            <TableCell style={{ textAlign: "center" }}>종목</TableCell>
                             <TableCell style={{ textAlign:"center"}}>편집</TableCell>
                         </TableRow>
                     </TableHead>

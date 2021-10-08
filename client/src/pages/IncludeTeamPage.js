@@ -75,15 +75,15 @@ const IncludeTeamPage = () =>{
                 const boards = returnData.data.board;
                 boardList = boards.map((item) =>(
                     <TableRow key={item._id} style={{ textAlign: "center" }}>
-                        <TableCell>{item.teamName}</TableCell>
-                        <TableCell style={{ width:30 }}>{item.sport}</TableCell>
-                        <TableCell >{item.wantPlayDate.substring(0,10)}<br/>{item.wantPlayTime.join(",\r\n")}</TableCell>
-                        <TableCell>
+                        <TableCell style={{ textAlign: "center" }}>{item.teamName}</TableCell>
+                        <TableCell style={{ width:50, textAlign: "center"  }}>{item.sport}</TableCell>
+                        <TableCell style={{ width:200, textAlign: "center" }} >{item.wantPlayDate.substring(0,10)}<br/>{item.wantPlayTime.join(",\r\n")}</TableCell>
+                        <TableCell style={{ textAlign: "center" }}>
                             <Tooltip title={<h1>{item.say}</h1>}>
                                 <Button>보기</Button>
                             </Tooltip>
-                        </TableCell>
-                        <TableCell style={{ width:70 }}>
+                        </TableCell >
+                        <TableCell style={{ width:70, textAlign: "center"  }}>
                             <Button style={{ marginLeft:5 }} variant="contained" color="success" size="small" onClick = {() => exitTeam(item._id,item.writer)}>나가기</Button>
                         </TableCell>
                     </TableRow>
@@ -111,7 +111,7 @@ const IncludeTeamPage = () =>{
                 textAlign: "center"
             }}>나의 팀모집 목록</h1>
             <TableContainer component={Paper} style={{marginTop:50}}>
-                <Table aria-label="collapsible table">
+                <Table aria-label="collapsible table" style={{minWidth:500}}>
                     <TableHead>
                         <TableRow style={{ textAlign: "center" }}>
                             <TableCell style={{ textAlign:"center"}}>팀이름</TableCell>
