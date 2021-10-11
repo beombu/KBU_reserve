@@ -78,7 +78,7 @@ const MainPage = () => {
                             <TableCell style={{ width:50, textAlign: "center" }}>{item.sport}</TableCell>
                             <TableCell style={{ width:200, textAlign: "center" }}>{item.wantPlayDate.substring(0, 10)}<br />{item.wantPlayTime.join("\r\n")}</TableCell>
                             <TableCell style={{ width:50 ,textAlign: "center" }}>
-                                <Tooltip title={<h1>{item.say}</h1>}>
+                                <Tooltip title={<h2>{item.say}</h2>}>
                                     <Button>보기</Button>
                                 </Tooltip>
                             </TableCell>
@@ -155,17 +155,21 @@ const MainPage = () => {
 
     const IMG1 = styled.img`
         width: 600px;
-        height: 150px;  
+        height: 150px;
+        width: 100%;  
+        height: 100%;
     `;
 
     const IMG2 = styled.img`
         width: 600px;
         height: 300px;  
+        width: 100%;
+        height: 100%;
     `;
 
     const Item1 = ({name, description, img, targetUrl}) => {
         return (
-            <Paper style={{marginTop: '40px'}}>
+            <Paper style={{marginTop: '40px', width: '100%'}}>
                 {/* <h2 style={{color: "green", marginTop: "70px"}} onClick={() => window.location.replace(targetUrl)} >{name}</h2>
                 <p style={{color: "green", lineHeight: '0', marginBottom: "50px"}}>{description}</p> */}
                 <IMG1  style={{ display: "flex"}}
@@ -177,7 +181,7 @@ const MainPage = () => {
     };
     const Item2 = ({name, description, img}) => {
         return (
-            <Paper style={{marginTop: '40px'}}> 
+            <Paper style={{marginTop: '40px', width: '100%'}}> 
                 {/* <h2 style={{color: "green", marginTop: "70px"}} onClick={() => onLinkClick()} >{name}</h2>
                 <p style={{color: "green", lineHeight: '0', marginBottom: "50px"}}>{description}</p> */}
 
@@ -239,7 +243,10 @@ const MainPage = () => {
             <>
                 <h2 style={{
                     marginTop: 40,
-                    textAlign: "center"
+                    color: "green",
+                    fontFamily:"NanumSquare",
+                    textAlign: "center",
+                    fontWeight: 700
                 }}>현재 팀 목록</h2>
                 <TableContainer component={Paper}>
                     <Table aria-label="simple table" style={{minWidth:650}}>

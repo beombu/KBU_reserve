@@ -72,7 +72,6 @@ teamRouter.post("/includeList", async (req,res) => {
         const board = await Teams.find({"members":{$elemMatch:{"_id":_id}}},null,{
             sort:{createAt:-1}
         });
-        console.log(board);
         res.json({board});
     }catch(err){
         console.error(err);

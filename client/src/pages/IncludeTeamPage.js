@@ -75,11 +75,11 @@ const IncludeTeamPage = () =>{
                 const boards = returnData.data.board;
                 boardList = boards.map((item) =>(
                     <TableRow key={item._id} style={{ textAlign: "center" }}>
-                        <TableCell style={{ textAlign: "center" }}>{item.teamName}</TableCell>
+                        <TableCell style={{width:70,textAlign: "center" }}>{item.teamName}</TableCell>
                         <TableCell style={{ width:50, textAlign: "center"  }}>{item.sport}</TableCell>
                         <TableCell style={{ width:200, textAlign: "center" }} >{item.wantPlayDate.substring(0,10)}<br/>{item.wantPlayTime.join(",\r\n")}</TableCell>
                         <TableCell style={{ textAlign: "center" }}>
-                            <Tooltip title={<h1>{item.say}</h1>}>
+                            <Tooltip title={<h2>{item.say}</h2>}>
                                 <Button>보기</Button>
                             </Tooltip>
                         </TableCell >
@@ -108,8 +108,11 @@ const IncludeTeamPage = () =>{
         <>
             <h1 style={{
                 marginTop: 50,
-                textAlign: "center"
-            }}>나의 팀모집 목록</h1>
+                textAlign: "center",
+                fontFamily:"NanumSquare",
+                color: 'green',
+                fontWeight: 700
+            }}>참가한 팀 목록</h1>
             <TableContainer component={Paper} style={{marginTop:50}}>
                 <Table aria-label="collapsible table" style={{minWidth:500}}>
                     <TableHead>

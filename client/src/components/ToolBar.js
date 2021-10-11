@@ -69,24 +69,24 @@ const ToolBar = () => {
                                     'aria-labelledby': 'basic-button',
                                 }}
                             >
-                                <Link to="/mypage/getteamlist" style={{ textDecoration: 'none' }}>
-                                <MenuItem style={{width:"100%", height:40, fontFamily:"NanumSquare" }} >만든 팀</MenuItem>
-                                </Link>
-                                <Link to="/mypage/includeteampage" style={{ textDecoration: 'none' }}>
-                                <MenuItem style={{width:"100%", height:40, fontFamily:"NanumSquare" }}>참가한 팀</MenuItem>
-                                </Link>
+                                <a href="/mypage/getteamlist" style={{ textDecoration: 'none' }}>
+                                <MenuItem style={{width:"100%", height:40, fontFamily:"NanumSquare", color: "green" }} >만든 팀</MenuItem>
+                                </a>
+                                <a href="/mypage/includeteampage" style={{ textDecoration: 'none' }}>
+                                <MenuItem style={{width:"100%", height:40, fontFamily:"NanumSquare", color: "green" }}>참가한 팀</MenuItem>
+                                </a>
                             </Menu>
 
                             <LogoutIcon onClick={logoutHandler} style={{ color: 'white', padding: '10px' }}>로그아웃</LogoutIcon>
                         </>
                     ) : (
                         <>
-                            <Link to="/auth/login" style={{ textDecoration: 'none' }}>
+                            <a href="/auth/login" style={{ textDecoration: 'none' }}>
                                 <Button style={{ color: 'white', fontFamily:"NanumSquare" }}>로그인</Button>
-                            </Link>
-                            <Link to="/auth/register" style={{ textDecoration: 'none' }}>
+                            </a>
+                            <a href="/auth/register" style={{ textDecoration: 'none' }}>
                                 <Button style={{ color: 'white', fontFamily:"NanumSquare" }}>회원가입</Button>
-                            </Link>
+                            </a>
                         </>
                     )}
                 </Toolbar>

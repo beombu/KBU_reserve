@@ -116,7 +116,7 @@ const MakeTeamPage = () =>{
             marginLeft:"auto",
             marginRight:"auto",
         }}>
-            <h2 style={{ textAlign: "center" }}>팀만들기 작성</h2>
+            <h2 style={{ textAlign: "center" , fontFamily:"NanumSquare", color: 'green', fontWeight: 700 }}>팀만들기 작성</h2>
             <form onSubmit={submitHandler}>
                 <CustomInput label = "팀이름" value={teamName} setValue={ setTeamName }/>
                 <CustomSelect label = "스포츠  :  " value={selectedSports} selectArray = {sportsArray} setValue = {setSelectedSports}/>

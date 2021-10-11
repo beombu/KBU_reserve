@@ -67,10 +67,10 @@ const LoginPage =() =>{
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: 'green' }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h5" style={{fontFamily:"NanumSquare", color: 'green', fontWeight: 700}}>
             로그인
           </Typography>
           <Box component="form" onSubmit={loginHandler} noValidate sx={{ mt: 1 }}>

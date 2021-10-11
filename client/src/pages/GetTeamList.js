@@ -80,12 +80,12 @@ const GetTeamList = () => {
                                 <TableCell style={{ width:200, textAlign: "center" }} component="th" scope="item">
                                 {item.wantPlayDate.substring(0,10)}<br/>{item.wantPlayTime.join(",\r\n")}
                                 </TableCell>
-                                <TableCell style={{textAlign: "center" }}>
+                                <TableCell style={{ width:70, textAlign: "center" }}>
                                     {item.teamName}
                                 </TableCell>
                                 <TableCell style={{ width:50, textAlign: "center" }}>{item.sport}</TableCell>
                                 <TableCell style={{ width:70 ,textAlign: "center" }}>
-                                    <Link to={"/makeTeam/modify/" + item._id} style={{textDecoration: 'none'}}><Button style={{ marginLeft:5 }}  variant="contained" color="success" size="small">수정</Button></Link>
+                                    <a href={"/makeTeam/modify/" + item._id} style={{textDecoration: 'none'}}><Button style={{ marginLeft:5 }}  variant="contained" color="success" size="small">수정</Button></a>
                                     <Button variant="contained" style={{marginLeft:5, marginTop:10}} color="success" size="small" onClick = {() =>  removePost(item._id)}>삭제</Button>
                                 </TableCell>
                             </TableRow>
@@ -150,7 +150,10 @@ const GetTeamList = () => {
         <>
             <h1 style={{
                 marginTop: 50,
-                textAlign: "center"
+                textAlign: "center",
+                fontFamily:"NanumSquare",
+                color: 'green',
+                fontWeight: 700
             }}>나의 팀모집 목록</h1>
             <TableContainer component={Paper} style={{marginTop:50}}>
                 <Table aria-label="collapsible table" style={{minWidth:470}}>

@@ -76,7 +76,7 @@ const RegisterPage = () => {
                     <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                         <LockOutlinedIcon />
                     </Avatar>
-                    <Typography component="h1" variant="h5">
+                    <Typography component="h1" variant="h5" style={{fontFamily:"NanumSquare", color: 'green', fontWeight: 700}}>
                         회원가입
                     </Typography>
                     <Box component="form" onSubmit={submitHandler} noValidate sx={{ mt: 1 }}>
