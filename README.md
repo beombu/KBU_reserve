@@ -25,15 +25,18 @@
 
 ### 실행화면
 
-#### 메인, 로그린, 회원가입
+#### 메인, 팀만들기
 
 ![image](https://user-images.githubusercontent.com/84673536/174642943-60732221-cac4-47e9-a4cd-1a6faa47520b.png)
+![image](https://user-images.githubusercontent.com/84673536/174643042-41cf880b-8788-4feb-a0e3-6fc9d1540099.png)
+
+#### 로그인, 회원가입
+
 ![image](https://user-images.githubusercontent.com/84673536/174642966-1f38823a-6f5f-42be-8f33-66262226c0f3.png)
 ![image](https://user-images.githubusercontent.com/84673536/174643006-6f5ccf18-3e56-416f-b711-e2aca941c0d9.png)
 
-#### 팀만들기, 마이페이지(자신이 참가한 팀 목록), 마이페이지(자신이 만든 방 목록)
+#### 마이페이지(자신이 참가한 팀 목록), 마이페이지(자신이 만든 방 목록)
 
-![image](https://user-images.githubusercontent.com/84673536/174643042-41cf880b-8788-4feb-a0e3-6fc9d1540099.png)
 ![image](https://user-images.githubusercontent.com/84673536/174643121-d4722aa2-2bdc-449d-bd54-ef4935c27976.png)
 ![image](https://user-images.githubusercontent.com/84673536/174643180-3bbf2bdc-3338-4c42-abff-b09043087d1d.png)
 
