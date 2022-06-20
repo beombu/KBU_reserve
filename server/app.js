@@ -55,7 +55,4 @@ app.use(function(err, req, res, next) {
 })
 .catch((err) => console.log(err));
 
-// dbadmin ID = admin
-// pw = vwlE2nw0N9IJ3jCB
-
 module.exports = app;
