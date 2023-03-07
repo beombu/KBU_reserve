@@ -17,11 +17,6 @@
 
 ![시스템 구조도](https://user-images.githubusercontent.com/84673536/174640967-f3184a8a-bf50-46c5-b6ef-2d524ef47d67.png)
 
-**[ DB 설계 ]**
-
-![image](https://user-images.githubusercontent.com/84673536/174641352-5a71b570-8bd9-44b1-9019-520ed662cd11.png)
-![image](https://user-images.githubusercontent.com/84673536/174641359-6e9f310c-bccb-495e-b2b5-39505b45fb5a.png)
-
 
 ### 실행화면
 
